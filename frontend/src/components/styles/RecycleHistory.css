@@ -1,0 +1,417 @@
+/* RecycleHistory.css */
+
+.history-container {
+    max-width: 800px;
+
+    margin: 40px auto;
+    margin-top: 180px;
+    padding: 10px;
+  }
+
+  .history-container h2{
+    color: rgb(9, 207, 141);
+    font-size: 24px;
+    text-align: left;
+  }
+
+
+  
+  .history-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border: 2px solid #2f9435;
+  }
+  
+  .left-section {
+    background-color: #eeeeee;
+    border-radius: 15px;
+    width: 40%;
+    margin-left: 30px;
+  }
+  
+  .right-section {
+    width: 40%;
+    text-align: justify;
+    margin-right: 30px;
+    margin-top: 50px;
+  }
+  
+  .item-row,
+  .total-row,
+  .to-receive,
+  .service-fee {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #fff ;
+    padding-right: 50px;
+    margin-bottom: 10px;
+  }
+  
+  .total-row {
+    font-weight: bold;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: -20px;
+  }
+  
+  .service-fee {
+    color: red;
+    margin-top: 5px;
+    margin-left: 20px;
+    margin-right: -20px;
+    
+  }
+  
+  .to-receive {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #2d6a4f;
+    margin-left: 20px;
+    margin-right: -20px;
+  }
+  
+  p {
+    margin: 5px 0;
+  }
+  
+  .statuss{
+    color: #2f9435;
+  }
+  
+  /* Responsive Styles for Mobile */
+@media (max-width: 768px) {
+  .history-container {
+      margin-left: 20px;
+      margin-right: 20px;
+      margin-top: 100px;
+      
+      padding: 5px;
+  }
+
+  .history-container h2{
+    padding-top: 30px;
+    color: rgb(9, 207, 141);
+    font-size: 20px;
+    text-align: center;
+  }
+  .history-card {
+      flex-direction: column; /* Stack sections vertically */
+      align-items: center;
+      padding: 15px;
+  }
+
+  .left-section,
+  .right-section {
+      width: 100%; /* Full width on mobile */
+      margin-left: 0;
+      margin-right: 0;
+      margin-top: 10px;
+  }
+
+  .item-row,
+  .total-row,
+  .to-receive,
+  .service-fee {
+      width: 250px;
+      align-items: flex-start;
+      padding-right: 0;
+      margin-bottom: 5px;
+  }
+
+  .total-row,
+  .service-fee,
+  .to-receive {
+      margin-left: 0;
+      margin-right: 0;
+  }
+
+  .right-section {
+      text-align: left;
+      margin-top: 20px;
+  }
+
+  h2 {
+      font-size: 20px;
+      text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .history-container {
+      margin-left: 15px;
+      margin-right: 15px;
+      margin-top: 50px;
+      padding-top: 100px;
+  }
+
+  .history-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border: 2px solid #2f9435;
+  }
+
+
+  .left-section {
+    background-color: #eeeeee;
+    border-radius: 15px;
+   
+   
+  }
+  
+  .right-section {
+  
+    text-align: justify;
+
+  }
+  
+  .item-row,
+  .total-row,
+  .to-receive,
+  .service-fee {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #fff ;
+   
+  }
+  
+  .total-row {
+    font-weight: bold;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: -20px;
+  }
+  
+  .service-fee {
+    color: red;
+    margin-top: 5px;
+    margin-left: 20px;
+    margin-right: -20px;
+    
+  }
+  
+  .to-receive {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #2d6a4f;
+    margin-left: 20px;
+    margin-right: -20px;
+  }
+  h2 {
+      font-size: 18px;
+  }
+
+  
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+
+
+/* Add these styles to your RecycleHistory.css file */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+}
+
+.update-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-section {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.form-section h4 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.edit-item-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 10px;
+  align-items: end;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.form-group input,
+.form-group select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.remove-item-btn {
+  background: #ff4757;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  height: fit-content;
+}
+
+.add-item-btn {
+  background: #2ed573;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.summary-section {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.summary-row.total {
+  font-weight: bold;
+  font-size: 1.1em;
+  border-top: 1px solid #ddd;
+  padding-top: 8px;
+  margin-top: 8px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.save-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.save-btn:hover {
+  background: #0056b3;
+}
+
+.cancel-btn:hover {
+  background: #545b62;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .edit-item-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .modal-content {
+    width: 95%;
+    margin: 10px;
+  }
+  
+  .modal-actions {
+    flex-direction: column;
+  }
+}
