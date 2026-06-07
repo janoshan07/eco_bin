@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../styles/Schedule.css';
-import Header from '../Header';
-import Footer from '../Footer';
 import { useNavigate } from 'react-router-dom';
 
 const Schedule = () => {
     const navigate = useNavigate();
     
-    const [schedules, setSchedules] = useState([]);
     const [address, setAddress] = useState('');
     const [district, setDistrict] = useState('');
     const [dateTime, setDateTime] = useState('');
@@ -82,99 +79,89 @@ const Schedule = () => {
         }
     };
 
-    // useEffect(() => {
-    //     const fetchSchedules = async () => {
-    //         try {
-    //             const response = await fetch('http://localhost:8070/schedule/allscheduleDetails');
-    //             const data = await response.json();
-    //             setSchedules(data); 
-    //         } catch (error) {
-    //             console.error('Error fetching schedules:', error);
-    //         }
-    //     };
-
-    //     fetchSchedules();
-    // }, []);
-
     return (
-        <>
-        <Header/>
-        <div className="schedulebackground-image">
-      
-            <div className="schedule-form-container" >
-                <h2>Schedule Time Slot</h2>
-                {message && <p>{message}</p>}
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor="address">Address:</label>
-                    <input
-                        type="text"
-                        id="address"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                        required
-                    />
-                    {errors.address && <p style={{ color: 'red' }}>{errors.address}</p>}
-
-                    <label htmlFor="district">District:</label>
-                    <select
-                        id="district"
-                        value={district}
-                        onChange={(e) => setDistrict(e.target.value)}
-                        required
-                    >
-                        <option value="">Select District</option>
-                        <option value="Gampaha">Gampaha</option>
-                        <option value="Colombo">Colombo</option>
-                        <option value="Kaluthara">Kaluthara</option>
-                        <option value="Kandy">Kandy</option>
-                        <option value="Matale">Matale</option>
-                        <option value="Nuwara Eliya">Nuwara Eliya</option>
-                        <option value="Galle">Galle</option>
-                        <option value="Hambantota">Hambantota</option>
-                        <option value="Matara">Matara</option>
-                        <option value="Jaffna">Jaffna</option>
-                        <option value="Kilinochchi">Kilinochchi</option>
-                        <option value="Mannar">Mannar</option>
-                        <option value="Vavuniya">Vavuniya</option>
-                        <option value="Mullaitivu">Mullaitivu</option>
-                        <option value="Batticaloa">Batticaloa</option>
-                        <option value="Ampara">Ampara</option>
-                        <option value="Trincomalee">Trincomalee</option>
-                        <option value="Polonnaruwa">Polonnaruwa</option>
-                        <option value="Anuradhapura">Anuradhapura</option>
-                        <option value="Kurunegala">Kurunegala</option>
-                        <option value="Puttalam">Puttalam</option>
-                        <option value="Kegalle">Kegalle</option>
-                        <option value="Ratnapura">Ratnapura</option>
-                        <option value="Badulla">Badulla</option>
-                        <option value="Monaragala">Monaragala</option>
-                    </select>
-                    {errors.district && <p style={{ color: 'red' }}>{errors.district}</p>}
-
-                    <label htmlFor="dateTime">Date and Time:</label>
-                    <input
-                        type="datetime-local"
-                        id="dateTime"
-                        value={dateTime}
-                        onChange={(e) => setDateTime(e.target.value)}
-                        min={new Date().toISOString().slice(0, 16)}
-                        required
-                    />
-                    {errors.dateTime && <p style={{ color: 'red' }}>{errors.dateTime}</p>}
-
-                    <div className="schedulebutton-container">
-                        <button type="submit" disabled={isSubmitting}>Continue</button>
+        <div className="schedule-form-wrapper">
+            <div className="schedule-form-card">
+                <div className="form-card-header">
+                    <h2>Schedule Collection Time Slot</h2>
+                    <p>Provide your pickup address details and pick a convenient date & time slot for collection.</p>
+                </div>
+                
+                {message && <div className="schedule-alert-msg">{message}</div>}
+                
+                <form onSubmit={handleSubmit} className="schedule-form">
+                    <div className="form-group-new">
+                        <label htmlFor="address">Address</label>
+                        <input
+                            type="text"
+                            id="address"
+                            placeholder="Enter your street address, building number..."
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                            required
+                        />
+                        {errors.address && <p className="form-error-lbl">{errors.address}</p>}
                     </div>
+
+                    <div className="form-group-new">
+                        <label htmlFor="district">District</label>
+                        <select
+                            id="district"
+                            value={district}
+                            onChange={(e) => setDistrict(e.target.value)}
+                            required
+                        >
+                            <option value="">Select District</option>
+                            <option value="Gampaha">Gampaha</option>
+                            <option value="Colombo">Colombo</option>
+                            <option value="Kaluthara">Kaluthara</option>
+                            <option value="Kandy">Kandy</option>
+                            <option value="Matale">Matale</option>
+                            <option value="Nuwara Eliya">Nuwara Eliya</option>
+                            <option value="Galle">Galle</option>
+                            <option value="Hambantota">Hambantota</option>
+                            <option value="Matara">Matara</option>
+                            <option value="Jaffna">Jaffna</option>
+                            <option value="Kilinochchi">Kilinochchi</option>
+                            <option value="Mannar">Mannar</option>
+                            <option value="Vavuniya">Vavuniya</option>
+                            <option value="Mullaitivu">Mullaitivu</option>
+                            <option value="Batticaloa">Batticaloa</option>
+                            <option value="Ampara">Ampara</option>
+                            <option value="Trincomalee">Trincomalee</option>
+                            <option value="Polonnaruwa">Polonnaruwa</option>
+                            <option value="Anuradhapura">Anuradhapura</option>
+                            <option value="Kurunegala">Kurunegala</option>
+                            <option value="Puttalam">Puttalam</option>
+                            <option value="Kegalle">Kegalle</option>
+                            <option value="Ratnapura">Ratnapura</option>
+                            <option value="Badulla">Badulla</option>
+                            <option value="Monaragala">Monaragala</option>
+                        </select>
+                        {errors.district && <p className="form-error-lbl">{errors.district}</p>}
+                    </div>
+
+                    <div className="form-group-new">
+                        <label htmlFor="dateTime">Date and Time Slot</label>
+                        <input
+                            type="datetime-local"
+                            id="dateTime"
+                            value={dateTime}
+                            onChange={(e) => setDateTime(e.target.value)}
+                            min={new Date().toISOString().slice(0, 16)}
+                            required
+                        />
+                        <span className="form-tip-lbl">Available hours: 8:00 AM - 5:00 PM daily</span>
+                        {errors.dateTime && <p className="form-error-lbl">{errors.dateTime}</p>}
+                    </div>
+
+                    <button type="submit" className="schedule-submit-btn" disabled={isSubmitting}>
+                        {isSubmitting ? "Processing..." : "Continue to Payment Option"}
+                    </button>
                 </form>
             </div>
         </div>
-    
-        <Footer/>
-        </>
     );
 };
 
 export default Schedule;
-
-
-

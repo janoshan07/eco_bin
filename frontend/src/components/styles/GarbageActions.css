@@ -1,75 +1,104 @@
-/* GarbageActions.css */
+/* Garbage Actions Dashboard Style */
 
-/* Container for the entire garbage actions page */
-.garbage-actions-container {
+.garbage-hub-wrapper {
+    width: 100%;
+}
+
+.garbage-hub-header {
+    margin-bottom: 2rem;
+}
+
+.garbage-hub-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.5px;
+}
+
+.garbage-hub-header p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.garbage-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 900px;
+}
+
+.garbage-card-box {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: var(--transition-smooth);
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+}
+
+.garbage-card-box:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: #cbd5e1;
+}
+
+.garbage-icon-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 80vh;
-    background-color: #000000; /* Light background color */
-    padding: 20px;
-    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
 }
 
-/* Main title styling */
-.main-title {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #ffffff; /* Darker shade of blue */
-    margin-bottom: 40px;
+.garbage-card-box h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
 }
 
-/* Container for the two sections (side-by-side layout) */
-.garbage-sections {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    width: 100%;
-    max-width: 800px;
+.garbage-card-box p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+    text-align: left;
 }
 
-/* Individual section styling */
-.garbage-section {
-    background-color: #1acf32; /* Red color for the sections */
-    color: rgb(11, 10, 10);
-    border-radius: 10px;
-    padding: 30px 20px;
-    flex: 1;
+.garbage-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border: none;
+    background: none;
+    font-size: 0.9rem;
+    font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 0;
+    transition: var(--transition-smooth);
 }
 
-.main-title {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #f7fbff; /* Darker shade of blue */
-    margin-bottom: 40px;
+.garbage-btn i {
+    font-size: 1.1rem;
+    transition: transform 0.2s ease;
 }
 
-/* Section description styling */
-.garbage-section p {
-    font-size: 1.2rem;
+.garbage-card-box:hover .garbage-btn i {
+    transform: translateX(4px);
 }
 
-/* Hover effect for the section */
-.garbage-section:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* Media queries for responsiveness */
-@media (max-width: 768px) {
-    .garbage-actions-container {
-        margin-top: 30vh;
-    }
-    .garbage-sections {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .garbage-section {
-        width: 100%;
+@media (max-width: 650px) {
+    .garbage-cards-grid {
+        grid-template-columns: 1fr;
     }
 }

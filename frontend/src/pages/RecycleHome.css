@@ -1,216 +1,220 @@
-.market{
-    /* padding: 50px 0; */
-    padding-top: 60px;
-    margin-left: 60px;
-    margin-right: 60px;
-    margin-bottom: 0%;
-}
-.sub-title{
-    text-align: center;
-    font-size: 5em;
-    margin: 0.5em 0;
-}
-.work-list{
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-    gap: 0.5em;
-    margin-left: auto;
-    margin-right: auto;
-}
-.work{
-    margin-left: 80px;
-    margin-right: 80px;
-    border: 3px solid #16ad31;
-    border-radius: 0.5em;
-    width: 80%;
-    height: 55vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
-    object-fit: cover;
+/* Recycle Hub Specific Dashboard Styles */
 
-    gap: 2em;
-    color: white;
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
-    margin-bottom: 0vh;
-}
-.work img{
-    margin-left: 40px;
-    margin-right: 25px;
-    width: 360px;
-    height: 250px;
-    border-radius: 0.5em;
-    display: block;
-    transition: transform 0.5s;
-
-}
-.layer{
+.recycle-hub-container {
     width: 100%;
-    height: 0;
-    background: linear-gradient(rgba(49, 49, 49), #0a5217);
-    border-radius: 0.5em;
-    position: absolute;
-    left: 0;
-    bottom: 0;
+}
+
+.hub-welcome {
+    margin-bottom: 2rem;
+}
+
+.hub-welcome h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.5px;
+}
+
+.hub-welcome p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+/* Hub Action Card Grid */
+.hub-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    width: 100%;
+}
+
+.hub-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
     overflow: hidden;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+}
+
+.hub-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: #cbd5e1;
+}
+
+.hub-card-img-wrapper {
+    width: 100%;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hub-card-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.hub-card:hover .hub-card-img-wrapper img {
+    transform: scale(1.05);
+}
+
+.hub-card-icon {
+    position: absolute;
+    bottom: 12px;
+    right: 16px;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--text-white);
+    font-size: 1.35rem;
+    box-shadow: var(--shadow-md);
+}
+
+.hub-card-content {
+    padding: 1.5rem;
+    display: flex;
     flex-direction: column;
-    padding: 0 40px;
-    text-align: center;
-    font-size: 14px;
-    transition: height 0.5s;
+    gap: 0.5rem;
+    flex-grow: 1;
 }
-.layer h3{
-    font-weight: 500;
-    margin-bottom: 20px;
+
+.hub-card-content h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-primary);
 }
-.layer a{
-    margin-top: 20px;
-    color: #0fc1e1;
-    text-decoration: none;
-    font-size: 18px;
-    line-height: 60px;
-    background: #fff;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    text-align: center;
+
+.hub-card-content p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    flex-grow: 1;
+    margin-bottom: 1rem;
 }
-.layer a i span{
-    
+
+.hub-card-btn {
+    display: inline-flex;
     align-items: center;
-    font-size: 5em;
-}
-
-.layer a:hover{
-    background: linear-gradient(to bottom, #535652, #ffffff);
-}
-
-.work:hover{
-    transform: scale(1.1);
-}
-.work:hover .layer{
-    height: 100%;
-}
-.img{
-    opacity: 0.5;
-
-}
-.btn1{
-    display: block;
-    margin: 50px auto;
+    gap: 0.35rem;
+    border: none;
+    background: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    transition: var(--transition-smooth);
     width: fit-content;
-    border: 1px solid white;
-    padding: 14px 50px;
-    border-radius: 6px;
-    text-decoration: none;
-    color: #fff;
-    transition: background 0.5s;
-}
-.btn1:hover{
-    background: #0fc1e1;
 }
 
-.market .btn{
-    margin: 100px auto;
-    width: fit-content;
+.hub-card-btn i {
+    font-size: 1.1rem;
+    transition: transform 0.2s ease;
+}
+
+.hub-card:hover .hub-card-btn i {
+    transform: translateX(4px);
+}
+
+/* Materials Guide Section */
+.materials-guide-section {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.materials-guide-section h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
+}
+
+.materials-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.material-rate-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.material-rate-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Border Accent lines to match UserHome metrics styling */
+.border-cardboard { border-top: 3px solid var(--accent-orange); }
+.border-news { border-top: 3px solid var(--accent-blue); }
+.border-plastic { border-top: 3px solid var(--eco-green); }
+.border-metal { border-top: 3px solid var(--accent-purple); }
+
+.rate-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
     align-items: center;
-}
-
-.top{
-    color:  #61d176;
-    font-size: 3vh;
-    background-color: black;
-    margin-bottom: 2vh;
-    text-align: center;
     justify-content: center;
+    font-size: 1.15rem;
+    margin-bottom: 0.75rem;
 }
 
-.btn12{
-    background-color: #fff;
-    width: 10vh;
-    height: 5vh;
+.material-rate-card h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.35rem;
 }
 
-.btn12:hover{
-    background: #535652;
+.rate-value {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.35rem;
 }
 
-/* Responsive Styles for Mobile */
+.rate-tag {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Responsive Rules */
+@media (max-width: 1024px) {
+    .materials-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 768px) {
-    .market {
-        margin-left: 20px;
-        margin-right: 20px;
-        padding-top: 30px;
-    }
-
-    .sub-title {
-        font-size: 3em;
-        margin-bottom: 0.5em;
-    }
-
-    .work {
-        margin-left: 10px;
-        margin-right: 10px;
-        width: 100%;
-        height: auto;
-    }
-
-    .work img {
-        width: 100%;
-        height: auto;
-        margin: 0;
-    }
-
-    .btn1 {
-        width: 90%;
-        padding: 10px 20px;
-        font-size: 1.2em;
-    }
-
-    .btn12 {
-        width: 8vh;
-        height: 4vh;
-    }
-
-    .layer {
-        padding: 10px 20px;
-        font-size: 12px;
-    }
-
-    .top {
-        font-size: 2vh;
+    .hub-cards-grid {
+        grid-template-columns: 1fr;
     }
 }
 
 @media (max-width: 480px) {
-    .market {
-        margin-left: 10px;
-        margin-right: 10px;
-    }
-
-    .sub-title {
-        font-size: 2.5em;
-    }
-
-    .work img {
-        width: 100%;
-        height: 200px;
-    }
-
-    .btn1 {
-        padding: 8px 15px;
-        font-size: 1em;
-    }
-
-    .layer a {
-        width: 50px;
-        height: 50px;
-        line-height: 50px;
-        font-size: 16px;
+    .materials-grid {
+        grid-template-columns: 1fr;
     }
 }

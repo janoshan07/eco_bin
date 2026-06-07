@@ -42,6 +42,8 @@ import AllCompostRequests from './components/admin/AllCompostRequests';
 import AdminTable from './components/admin/AdminTable'; // Import AdminTable page
 import RecycleHistory from './components/user/RecycleHistory'; // Import the component
 // import Chatbox from './components/Chatbox'; // Import Chatbox component
+import UserDashboardLayout from './components/user/UserDashboardLayout';
+
 
 
 
@@ -122,7 +124,9 @@ function App() {
             path="/recyclehome"
             element={
               <PrivateRoute isAuthenticated={isAuthenticated}>
-                <RecycleHome userName={userName} userEmail={userEmail} />
+                <UserDashboardLayout userName={userName} userEmail={userEmail} activeTab="recycle">
+                  <RecycleHome userName={userName} userEmail={userEmail} />
+                </UserDashboardLayout>
               </PrivateRoute>
             }
           />
@@ -140,7 +144,9 @@ function App() {
             path="/recycle-history"
             element={
               <PrivateRoute isAuthenticated={isAuthenticated}>
-                <RecycleHistory userName={userName} userEmail={userEmail}/>
+                <UserDashboardLayout userName={userName} userEmail={userEmail} activeTab="recycle">
+                  <RecycleHistory userName={userName} userEmail={userEmail}/>
+                </UserDashboardLayout>
               </PrivateRoute>
             }
           />
@@ -151,7 +157,9 @@ function App() {
                     path="/recycle-management"
                     element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
-                        <RecycleManagement items={items} setItems={setItems} />
+                        <UserDashboardLayout userName={userName} userEmail={userEmail} activeTab="recycle">
+                            <RecycleManagement items={items} setItems={setItems} />
+                        </UserDashboardLayout>
                     </PrivateRoute>
                     }
                 />
@@ -159,14 +167,16 @@ function App() {
                     path="/summary"
                     element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
-                        <Summary
-                        items={items}
-                        totalWeight={totalWeight}
-                        totalPrice={totalPrice}
-                        serviceFee={20.0}
-                        userName={userName}
-                        userEmail={userEmail}
-                        />
+                        <UserDashboardLayout userName={userName} userEmail={userEmail} activeTab="recycle">
+                            <Summary
+                            items={items}
+                            totalWeight={totalWeight}
+                            totalPrice={totalPrice}
+                            serviceFee={20.0}
+                            userName={userName}
+                            userEmail={userEmail}
+                            />
+                        </UserDashboardLayout>
                     </PrivateRoute>
                     }
                 />
@@ -174,11 +184,13 @@ function App() {
                     path="/schedule-collection"
                     element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
-                        <ScheduleCollection
-                        items={items}
-                        userName={userName}
-                        userEmail={userEmail}
-                        />
+                        <UserDashboardLayout userName={userName} userEmail={userEmail} activeTab="recycle">
+                            <ScheduleCollection
+                            items={items}
+                            userName={userName}
+                            userEmail={userEmail}
+                            />
+                        </UserDashboardLayout>
                     </PrivateRoute>
                     }
                 />
@@ -194,29 +206,36 @@ function App() {
                     path="/addschedule" 
                     element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
-                        <Schedule />
+                        <UserDashboardLayout userName={userName} userEmail={userEmail} activeTab="pickup">
+                            <Schedule />
+                        </UserDashboardLayout>
                     </PrivateRoute>
-                
                     } />
                 <Route 
                     path="/confirm" 
                     element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
-                        <ConfirmCollection />
+                        <UserDashboardLayout userName={userName} userEmail={userEmail} activeTab="pickup">
+                            <ConfirmCollection />
+                        </UserDashboardLayout>
                     </PrivateRoute>
                     } />
                 <Route 
                     path="/update-schedule/:scheduleId" 
                     element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
-                        <UpdateSchedule />
+                        <UserDashboardLayout userName={userName} userEmail={userEmail} activeTab="pickup">
+                            <UpdateSchedule />
+                        </UserDashboardLayout>
                     </PrivateRoute>
                     } />
                 <Route 
                     path="/addcardpayment" 
                     element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
-                        <PaymentOption/>
+                        <UserDashboardLayout userName={userName} userEmail={userEmail} activeTab="pickup">
+                            <PaymentOption/>
+                        </UserDashboardLayout>
                     </PrivateRoute>
                     } />
                 <Route 
@@ -237,7 +256,9 @@ function App() {
                     path="/getgarbage/:garid" 
                     element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
-                        <CalculatePayment />
+                        <UserDashboardLayout userName={userName} userEmail={userEmail} activeTab="pickup">
+                            <CalculatePayment />
+                        </UserDashboardLayout>
                     </PrivateRoute>
                     } />
                 <Route 
@@ -258,7 +279,9 @@ function App() {
                     path="/status" 
                     element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
-                        <Status />
+                        <UserDashboardLayout userName={userName} userEmail={userEmail} activeTab="pickup">
+                            <Status />
+                        </UserDashboardLayout>
                     </PrivateRoute>
                     } />
                 <Route 
@@ -286,14 +309,18 @@ function App() {
                     path="/addwaste-user" 
                     element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
-                        <AddWasteUser />
+                        <UserDashboardLayout userName={userName} userEmail={userEmail} activeTab="garbage">
+                            <AddWasteUser />
+                        </UserDashboardLayout>
                     </PrivateRoute>
                     } />
                  <Route 
                     path="/view-waste-user" 
                     element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
-                        <ViewUserWastes />
+                        <UserDashboardLayout userName={userName} userEmail={userEmail} activeTab="garbage">
+                            <ViewUserWastes />
+                        </UserDashboardLayout>
                     </PrivateRoute>
                     } />
                  <Route 
@@ -328,7 +355,9 @@ function App() {
                     path="/userwastedetails" 
                     element={
                     <PrivateRoute isAuthenticated={isAuthenticated}>
-                        <UserWasteDetails userEmail={userEmail}/>
+                        <UserDashboardLayout userName={userName} userEmail={userEmail} activeTab="garbage">
+                            <UserWasteDetails userEmail={userEmail}/>
+                        </UserDashboardLayout>
                     </PrivateRoute>
                     } />
 
@@ -337,7 +366,9 @@ function App() {
             path="/success"
             element={
               <PrivateRoute isAuthenticated={isAuthenticated}>
-                <Success userName={userName} userEmail={userEmail}/>
+                <UserDashboardLayout userName={userName} userEmail={userEmail} activeTab="recycle">
+                  <Success userName={userName} userEmail={userEmail}/>
+                </UserDashboardLayout>
               </PrivateRoute>
             }
           />
@@ -439,14 +470,18 @@ function App() {
             path="/addCompostRequest" 
             element={
               <PrivateRoute isAuthenticated={isAuthenticated}>
-                <AddCompostRequest userEmail={userEmail}/>
+                <UserDashboardLayout userName={userName} userEmail={userEmail} activeTab="compost">
+                    <AddCompostRequest userEmail={userEmail}/>
+                </UserDashboardLayout>
               </PrivateRoute>
             } />
             <Route 
             path="/myCompostRequest" 
             element={
               <PrivateRoute isAuthenticated={isAuthenticated}>
-                <MyCompostRequests userEmail={userEmail}/>
+                <UserDashboardLayout userName={userName} userEmail={userEmail} activeTab="compost">
+                    <MyCompostRequests userEmail={userEmail}/>
+                </UserDashboardLayout>
               </PrivateRoute>
             } />
             <Route 
@@ -460,14 +495,18 @@ function App() {
             path="/Garbage-Actions" 
             element={
               <PrivateRoute isAuthenticated={isAuthenticated}>
-                <GarbageActions userEmail={userEmail}/>
+                <UserDashboardLayout userName={userName} userEmail={userEmail} activeTab="garbage">
+                    <GarbageActions userEmail={userEmail}/>
+                </UserDashboardLayout>
               </PrivateRoute>
             } />
             <Route 
             path="/Compost-Actions" 
             element={
               <PrivateRoute isAuthenticated={isAuthenticated}>
-                <CompostActions userEmail={userEmail}/>
+                <UserDashboardLayout userName={userName} userEmail={userEmail} activeTab="compost">
+                    <CompostActions userEmail={userEmail}/>
+                </UserDashboardLayout>
               </PrivateRoute>
             } />
 
