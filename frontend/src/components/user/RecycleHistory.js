@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../styles/RecycleHistory.css';
-import Header from './../Header';
-import Footer from './../Footer';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import logo from '../../Assets/logo.png'; // ✅ Add logo
@@ -249,7 +247,6 @@ const RecycleHistory = () => {
 
   return (
     <>
-      <Header />
       <div className="history-container">
         <h2>Recycle History</h2>
 
@@ -408,7 +405,6 @@ const RecycleHistory = () => {
           </div>
         </div>
       )}
-      <Footer />
     </>
   );
 };

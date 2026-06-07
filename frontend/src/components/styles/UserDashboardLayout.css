@@ -451,3 +451,28 @@
         margin-top: 0.5rem;
     }
 }
+
+/* Unified Dashboard Workspace Headers */
+.hub-welcome {
+    border-left: 4px solid var(--eco-green);
+    padding-left: 1.25rem;
+    margin-bottom: 2.25rem;
+    margin-top: 0.5rem;
+    text-align: left;
+}
+
+.hub-welcome h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.45rem 0 !important;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+}
+
+.hub-welcome p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin: 0 !important;
+    line-height: 1.5;
+}

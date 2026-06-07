@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/Summary.css';
 import ProgressBar from './ProgressBar';
-import Header from './../Header';
-import Footer from './../Footer';
 
 const Summary = () => {
   const location = useLocation();
@@ -37,8 +35,6 @@ const Summary = () => {
   
 
   return (
-    <>
-    <Header/>
     <div>
       <ProgressBar activeStep={2} />
       <div className="summary-container">
@@ -79,7 +75,7 @@ const Summary = () => {
           {/* Payment Method Selection */}
           <div className="payment-method">
             <h4>Select the method you would like to collect your fee</h4>
-            <div  className="payment-method2">
+            <div className="payment-method2">
               <input
                 type="radio"
                 id="cash"
@@ -90,7 +86,7 @@ const Summary = () => {
               />
               <label htmlFor="cash"> Cash</label>
             </div>
-            <div  className="payment-method2">
+            <div className="payment-method2">
               <input
                 type="radio"
                 id="paycheck"
@@ -112,8 +108,6 @@ const Summary = () => {
         </div>
       </div>
     </div>
-    <Footer/>
-    </>
   );
 };
 

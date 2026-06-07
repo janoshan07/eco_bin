@@ -5,8 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import ProgressBar from './ProgressBar';
 import '../styles/ScheduleCollection.css';
 import moment from 'moment-timezone'; // Import moment for precise time handling
-import Header from './../Header';
-import Footer from './../Footer';
+
 const ScheduleCollection = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -92,8 +91,6 @@ const ScheduleCollection = () => {
   };
 
   return (
-    <>
-    <Header/>
     <div>
       <ProgressBar activeStep={3} />
       
@@ -161,8 +158,6 @@ const ScheduleCollection = () => {
         </div>
       </div>
     </div>
-    <Footer/>
-    </>
   );
 };
 

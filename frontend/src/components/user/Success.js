@@ -2,9 +2,6 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ProgressBar from './ProgressBar';
 import '../styles/Success.css';
-import Header from './../Header';
-import Footer from './../Footer';
-
 
 const Success = () => {
   const location = useLocation();
@@ -14,8 +11,6 @@ const Success = () => {
   const { toReceive = 0, paymentMethod = 'Cash' } = location.state || {};
 
   return (
-    <>
-    <Header/>
     <div className="success-container">
       {/* Display the Progress Bar with the final step highlighted */}
       <ProgressBar activeStep={4} />
@@ -40,8 +35,6 @@ const Success = () => {
         </div>
       </div>
     </div>
-    <Footer/>
-    </>
   );
 };
 

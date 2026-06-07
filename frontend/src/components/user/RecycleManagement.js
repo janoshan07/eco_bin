@@ -1,11 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/RecycleManagement.css';
-import ProgressBar from './ProgressBar'; // Import the progress bar component
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus, faTimes } from '@fortawesome/free-solid-svg-icons';
-import Header from '../Header';
-import Footer from '../Footer';
+import ProgressBar from './ProgressBar';
 
 import cardboardImg from '../../photos/cartboard.jpg';
 import newspaperImg from '../../photos/newspaper.jpg';
@@ -47,73 +43,65 @@ const RecycleManagement = ({ items, setItems }) => {
     });
   };
 
-  // Split items into groups of two
-  const itemEntries = Object.entries(items);
-  const rows = [];
-  for (let i = 0; i < itemEntries.length; i += 2) {
-    rows.push(itemEntries.slice(i, i + 2));
-  }
-
   return (
-    <>
-    <Header/>
-    <div>
-      <ProgressBar activeStep={1} /> {/* Highlight only the first step */}
-      <div className="recycle-container">
-        {/* Your existing component code for displaying the items */}
-        <div className="item-selection">
+    <div className="recycle-workspace">
+      <ProgressBar activeStep={1} />
+      
+      <div className="recycle-card-container">
+        <div className="recycle-card-header">
           <h3>Select Items</h3>
-          {/* Display items in rows of two */}
-          {rows.map((row, rowIndex) => (
-            <div className="item-row" key={rowIndex}>
-              {row.map(([itemName, itemData]) => (
-                <div
-                  key={itemName}
-                  className={`item-card ${itemData.selected ? 'selected' : ''}`}
+          <p className="recycle-card-subtitle">Choose the materials you wish to recycle and adjust their weights.</p>
+        </div>
+
+        <div className="materials-grid-selection">
+          {Object.entries(items).map(([itemName, itemData]) => (
+            <div
+              key={itemName}
+              className={`item-card ${itemData.selected ? 'selected' : ''}`}
+            >
+              <img src={getImageSrc(itemName)} alt={itemName} className="item-image" />
+              <div className="item-details">
+                <h4>{capitalize(itemName)}</h4>
+                <p>Rs. {itemData.pricePerKg}/kg</p>
+              </div>
+              
+              {!itemData.selected ? (
+                <button
+                  className="add-button1"
+                  onClick={() =>
+                    setItems({ ...items, [itemName]: { ...itemData, selected: true } })
+                  }
                 >
-                  <img src={getImageSrc(itemName)} alt={itemName} className="item-image" />
-                  <div className="item-details">
-                    <h4>{capitalize(itemName)}</h4>
-                    <p>Rs. {itemData.pricePerKg}/kg</p>
-                  </div>
-                  {!itemData.selected ? (
-                    <button
-                      className="add-button1"
-                      onClick={() =>
-                        setItems({ ...items, [itemName]: { ...itemData, selected: true } })
-                      }
-                    >
-                      Add
-                    </button>
-                  ) : (
-                    <div>
-                      <div className="weight-control">
-                        <button onClick={() => handleDecrement(itemName)}>
-                        <i class='bx bx-minus'></i>
-                        </button>
-                        <span>{itemData.weight.toFixed(1)}</span>
-                        <button onClick={() => handleIncrement(itemName)}>
-                        <i class='bx bx-plus'></i>
-                        </button>
-                        
-                        <p className='total-for-each'>Rs.{itemData.total.toFixed(2)}</p>
-                        <button
-                          className="cancel-button1"
-                          onClick={() =>
-                            setItems({
-                              ...items,
-                              [itemName]: { ...itemData, selected: false, weight: 1.0, total: itemData.pricePerKg }
-                            })
-                          }
-                        >
-                          <i class='bx bx-x'></i>
-                        </button>
-                      </div>
-                      
-                    </div>
-                  )}
+                  Add Item
+                </button>
+              ) : (
+                <div className="weight-control">
+                  <button onClick={() => handleDecrement(itemName)} className="weight-btn">
+                    <i className="bx bx-minus"></i>
+                  </button>
+                  <span className="weight-val">
+                    {itemData.weight.toFixed(1)} <span className="weight-unit">kg</span>
+                  </span>
+                  <button onClick={() => handleIncrement(itemName)} className="weight-btn">
+                    <i className="bx bx-plus"></i>
+                  </button>
+                  
+                  <span className='total-for-each'>Rs.{itemData.total.toFixed(2)}</span>
+                  
+                  <button
+                    className="cancel-btn-icon"
+                    onClick={() =>
+                      setItems({
+                        ...items,
+                        [itemName]: { ...itemData, selected: false, weight: 1.0, total: itemData.pricePerKg }
+                      })
+                    }
+                    aria-label="Remove item"
+                  >
+                    <i className="bx bx-trash"></i>
+                  </button>
                 </div>
-              ))}
+              )}
             </div>
           ))}
         </div>
@@ -121,13 +109,12 @@ const RecycleManagement = ({ items, setItems }) => {
         {/* Navigation Button */}
         <div className="next-button-container">
           <button className="next-button" onClick={handleNext}>
-            Next
+            <span>Next</span>
+            <i className="bx bx-right-arrow-alt"></i>
           </button>
         </div>
       </div>
     </div>
-    <Footer/>
-    </>
   );
 };
 

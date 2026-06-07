@@ -4,22 +4,7 @@
     width: 100%;
 }
 
-.hub-welcome {
-    margin-bottom: 2rem;
-}
 
-.hub-welcome h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-    letter-spacing: -0.5px;
-}
-
-.hub-welcome p {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-}
 
 /* Hub Action Card Grid */
 .hub-cards-grid {
