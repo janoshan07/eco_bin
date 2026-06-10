@@ -2,24 +2,49 @@ import React from 'react';
 import '../styles/ProgressBar.css'; // Include the CSS for styling
 
 const ProgressBar = ({ activeStep }) => {
+  const steps = [
+    { number: 1, label: 'Select Items' },
+    { number: 2, label: 'Calculate Fee' },
+    { number: 3, label: 'Schedule Pickup' },
+    { number: 4, label: 'Finished' }
+  ];
+
   return (
-    <div className="progress-container1">
-      <pre></pre>
-      <pre></pre>
-      <div className="progress-bar1">
-        {/* Update the className based on the active step */}
-        <div className={`progress-line1 ${activeStep >= 1 ? 'active1' : ''}`}></div>
-        <div className={`progress-step1 ${activeStep >= 1 ? 'active1' : ''}`}></div>
-        <div className={`progress-line1 ${activeStep >= 2 ? 'active1' : ''}`}></div>
-        <div className={`progress-step1 ${activeStep >= 2 ? 'active1' : ''}`}></div>
-        <div className={`progress-line1 ${activeStep >= 3 ? 'active1' : ''}`}></div>
-        <div className={`progress-step1 ${activeStep >= 3 ? 'active1' : ''}`}></div>
-        <div className={`progress-line1 ${activeStep >= 4 ? 'active1' : ''}`}></div>
-        <div className={`progress-step1 ${activeStep >= 4 ? 'active1' : ''}`}></div>
+    <div className="progress-container-modern">
+      <div className="progress-timeline">
+        <div className="progress-line-background">
+          <div 
+            className="progress-line-fill" 
+            style={{ width: `${((activeStep - 1) / (steps.length - 1)) * 100}%` }}
+          ></div>
+        </div>
+        
+        {steps.map((step) => {
+          const isCompleted = activeStep > step.number;
+          const isActive = activeStep === step.number;
+          
+          return (
+            <div 
+              key={step.number} 
+              className={`progress-step-node ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''}`}
+            >
+              <div className="step-circle-3d">
+                {isCompleted ? (
+                  <i className="bx bx-check"></i>
+                ) : (
+                  <span>{step.number}</span>
+                )}
+                <div className="step-glow"></div>
+              </div>
+              <span className="step-label">{step.label}</span>
+            </div>
+          );
+        })}
       </div>
-      <h2>Recycle Management Unit</h2>
+      <h2 className="progress-title-modern">Recycle Management Unit</h2>
     </div>
   );
 };
 
 export default ProgressBar;
+

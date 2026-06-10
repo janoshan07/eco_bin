@@ -35,75 +35,121 @@ const Summary = () => {
   
 
   return (
-    <div>
+    <div className="recycle-workspace">
       <ProgressBar activeStep={2} />
-      <div className="summary-container">
-        <h3>Calculating the total</h3>
+      <div className="summary-card-container">
+        <div className="summary-card-header">
+          <h3>Review Details & Fee</h3>
+          <p className="summary-card-subtitle">Verify your selected materials, service fees, and select your collection method.</p>
+        </div>
 
-        <div className="summary-content">
-          <div className="summary-items">
-            <h4>Items</h4>
-            <div className="item-card2">
-              {Object.entries(items).map(
-                ([itemName, itemData]) =>
-                  itemData.selected && (
-                    <div key={itemName} className="item-row2">
-                      <span>{itemName}</span>
-                      <span>{itemData.weight.toFixed(1)} kg</span>
-                      <span>Rs. {itemData.total.toFixed(2)}</span>
-                    </div>
-                  )
-              )}
-              <div className="item-row2 total">
-                <span>Total</span>
-                <span>{totalWeight.toFixed(1)} kg</span>
-                <span>Rs. {totalPrice.toFixed(2)}</span>
+        <div className="summary-split-layout">
+          <div className="summary-items-column">
+            <h4>Recyclable Items Summary</h4>
+            <div className="summary-table-card">
+              <div className="table-header-row">
+                <span>Material</span>
+                <span>Weight</span>
+                <span>Est. Value</span>
               </div>
-              <div className="item-row2 service-fee">
-                <span>Service Fee</span>
-                <span></span>
-                <span>- Rs. {serviceFee.toFixed(2)}</span>
+              
+              <div className="table-body-rows">
+                {Object.entries(items).map(
+                  ([itemName, itemData]) =>
+                    itemData.selected && (
+                      <div key={itemName} className="summary-item-row">
+                        <span className="material-name-lbl">{itemName.charAt(0).toUpperCase() + itemName.slice(1)}</span>
+                        <span>{itemData.weight.toFixed(1)} kg</span>
+                        <span className="material-price-val">Rs. {itemData.total.toFixed(2)}</span>
+                      </div>
+                    )
+                )}
               </div>
-              <div className="item-row2 to-receive">
-                <span>To Receive</span>
-                <span></span>
-                <span>Rs. {toReceive}</span>
+
+              <div className="summary-totals-section">
+                <div className="totals-row">
+                  <span>Total Weight & Value</span>
+                  <span>{totalWeight.toFixed(1)} kg</span>
+                  <span>Rs. {totalPrice.toFixed(2)}</span>
+                </div>
+                
+                <div className="totals-row service-fee-row">
+                  <span>Platform Service Fee</span>
+                  <span></span>
+                  <span>- Rs. {serviceFee.toFixed(2)}</span>
+                </div>
+                
+                <div className="totals-row net-receive-row">
+                  <span>Estimated Payout</span>
+                  <span></span>
+                  <span className="net-receive-val">Rs. {toReceive}</span>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Payment Method Selection */}
-          <div className="payment-method">
-            <h4>Select the method you would like to collect your fee</h4>
-            <div className="payment-method2">
-              <input
-                type="radio"
-                id="cash"
-                name="payment-method"
-                value="Cash"
-                checked={selectedPaymentMethod === 'Cash'}
-                onChange={handlePaymentMethodChange}
-              />
-              <label htmlFor="cash"> Cash</label>
-            </div>
-            <div className="payment-method2">
-              <input
-                type="radio"
-                id="paycheck"
-                name="payment-method"
-                value="PayCheck"
-                checked={selectedPaymentMethod === 'PayCheck'}
-                onChange={handlePaymentMethodChange}
-              />
-              <label htmlFor="paycheck"> PayCheck</label>
+          <div className="payment-method-column">
+            <h4>Select Collection Method</h4>
+            <div className="payment-options-grid">
+              <div 
+                className={`payment-card-option ${selectedPaymentMethod === 'Cash' ? 'active' : ''}`}
+                onClick={() => setSelectedPaymentMethod('Cash')}
+              >
+                <input
+                  type="radio"
+                  id="cash"
+                  name="payment-method"
+                  value="Cash"
+                  checked={selectedPaymentMethod === 'Cash'}
+                  onChange={handlePaymentMethodChange}
+                  style={{ display: 'none' }}
+                />
+                <div className="payment-card-icon">
+                  <i className="bx bx-wallet"></i>
+                </div>
+                <div className="payment-card-info">
+                  <h5>Cash Payment</h5>
+                  <p>Collect cash payout directly from the collection driver.</p>
+                </div>
+                <div className="payment-card-check">
+                  <div className="check-dot"></div>
+                </div>
+              </div>
+
+              <div 
+                className={`payment-card-option ${selectedPaymentMethod === 'PayCheck' ? 'active' : ''}`}
+                onClick={() => setSelectedPaymentMethod('PayCheck')}
+              >
+                <input
+                  type="radio"
+                  id="paycheck"
+                  name="payment-method"
+                  value="PayCheck"
+                  checked={selectedPaymentMethod === 'PayCheck'}
+                  onChange={handlePaymentMethodChange}
+                  style={{ display: 'none' }}
+                />
+                <div className="payment-card-icon">
+                  <i className="bx bx-file-blank"></i>
+                </div>
+                <div className="payment-card-info">
+                  <h5>Bank PayCheck</h5>
+                  <p>Receive a bank paycheck mailed to your address.</p>
+                </div>
+                <div className="payment-card-check">
+                  <div className="check-dot"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Navigation Button */}
-        <div className="next-button-container2">
-          <button className="next-button2" onClick={handleNextClick}>
-            Next
+        <div className="summary-actions-footer">
+          <button className="summary-next-btn" onClick={handleNextClick}>
+            <span>Continue</span>
+            <i className="bx bx-right-arrow-alt"></i>
           </button>
         </div>
       </div>

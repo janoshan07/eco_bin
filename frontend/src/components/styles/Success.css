@@ -1,134 +1,140 @@
+/* Step 4: Success Page Styles */
+
 .success-container {
     text-align: center;
-    padding: 20px;
-  }
-  
-  .success-box {
-    margin-left: 100px;
-margin-right: 100px;
-    max-width: 900px;
-    margin: 20px auto;
-    padding: 30px;
-    background: #f9f9f9;
-    border: 2px solid #58a653;
-    border-radius: 10px;
-  }
-  
-  .success-message {
-    color: #58a653;
-    font-size: 24px;
-  }
-  
-  .success-icon {
-    font-size: 100px; /* Font size for the icon */
-    color: #ffffff; /* Icon color */
-    margin: 20px 0; /* Spacing above and below */
-    width: 22%;
-    height: 30%;
-    background-color: #58a653;
-    border: 2px solid #58a653; /* 2px solid green border */
-    border-radius: 50%; /* Make it a perfect circle */
-    padding: 20px; /* Space between icon and border */
-    display: inline-block; /* Ensure the border wraps around the content */
-  }
-  
-  .amount {
-    font-size: 24px;
-    margin: 10px 0;
-  }
-  
-  .instructions {
-    margin-top: 10px;
-    font-style: italic;
-    margin-bottom: 35px;
-  }
-  
-  .button-container {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-  }
-  
-  .home-button,
-  .more-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    width: 300px;
-    border-radius: 8px;
-  }
-  
-  .home-button {
-    background: #fff;
-    border: 2px solid #58a653;
-   
-    color: #58a653;
-  }
-  
-  .more-button {
-    background: #58a653;
-    color: #fff;
-    border: none;
-  
-  }
-  
-  /* Mobile Responsive Styling */
-@media (max-width: 768px) {
-  .success-box {
-    margin-left: 20px;
-    margin-right: 20px;
-    padding: 20px;
-  }
-
-  .success-message {
-    font-size: 20px;
-  }
-
-  .success-icon {
-    font-size: 80px;
-    width: 30%;
-    height: 30%;
-    padding: 15px;
-  }
-
-  .amount {
-    font-size: 20px;
-  }
-
-  .instructions {
-    font-size: 14px;
-  }
-
-  .button-container {
-    flex-direction: column;
-  }
-
-  .home-button,
-  .more-button {
-    width: 80%; /* Buttons take up more space on mobile */
-    margin-bottom: 15px; /* Add some space between buttons */
-  }
+    padding: 1rem;
+    width: 100%;
 }
 
-@media (max-width: 480px) {
-  .success-message {
-    font-size: 18px;
-  }
+.success-box {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 3.5rem 2.5rem;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.01);
+}
 
-  .success-icon {
-    font-size: 60px;
-    width: 40%;
-    height: 30%;
-    padding: 10px;
-  }
+.success-message {
+    color: var(--eco-green);
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.02em;
+}
 
-  .amount {
-    font-size: 18px;
-  }
+.success-icon {
+    width: 76px;
+    height: 76px;
+    background-color: var(--eco-green-light);
+    border: 3px solid var(--eco-green);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1.5rem 0 2rem 0;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+    animation: scaleInCheck 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
 
-  .home-button,
-  .more-button {
-    width: 100%;
-    font-size: 14px;
-  }
+.checkmark {
+    color: var(--eco-green);
+    font-size: 2.2rem;
+    line-height: 1;
+    font-weight: bold;
+}
+
+.instructions {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 2.5rem;
+}
+
+/* Button Layout styling */
+.button-container {
+    display: flex;
+    gap: 1.25rem;
+    justify-content: center;
+}
+
+.home-button,
+.more-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+}
+
+.home-button {
+    background-color: transparent;
+    border: 1.5px solid #cbd5e1;
+    color: var(--text-secondary);
+}
+
+.home-button:hover {
+    border-color: #94a3b8;
+    color: var(--text-primary);
+    background-color: #f8fafc;
+    transform: translateY(-2px);
+}
+
+.more-button {
+    background-color: var(--eco-green);
+    color: var(--text-white);
+    border: none;
+    box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.15);
+}
+
+.more-button:hover {
+    background-color: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px -2px rgba(16, 185, 129, 0.25);
+}
+
+/* Animation */
+@keyframes scaleInCheck {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Mobile Responsive Override */
+@media (max-width: 576px) {
+    .success-box {
+        padding: 2.5rem 1.5rem;
+        margin: 1rem auto;
+    }
+
+    .success-message {
+        font-size: 1.35rem;
+    }
+
+    .instructions {
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+
+    .button-container {
+        flex-direction: column-reverse;
+        gap: 0.75rem;
+    }
+
+    .home-button,
+    .more-button {
+        width: 100%;
+    }
 }

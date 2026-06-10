@@ -10,27 +10,27 @@
 .recycle-card-container {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
-    border-radius: 16px;
-    box-shadow: var(--shadow-sm);
-    padding: 2.25rem;
-    margin-top: 1.5rem;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.01);
+    padding: 2.5rem;
+    margin-top: 1rem;
 }
 
 .recycle-card-header {
-    margin-bottom: 2rem;
+    margin-bottom: 2.25rem;
     border-bottom: 1px solid #f1f5f9;
-    padding-bottom: 1.25rem;
+    padding-bottom: 1.5rem;
 }
 
 .recycle-card-header h3 {
-    font-size: 1.25rem;
-    font-weight: 700;
+    font-size: 1.4rem;
+    font-weight: 800;
     color: var(--text-primary);
-    margin: 0 0 0.35rem 0;
+    margin: 0 0 0.45rem 0;
 }
 
 .recycle-card-subtitle {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--text-secondary);
     margin: 0;
 }
@@ -39,8 +39,8 @@
 .materials-grid-selection {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(460px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2.25rem;
+    gap: 1.75rem;
+    margin-bottom: 2.5rem;
 }
 
 /* Cards styling */
@@ -50,16 +50,28 @@
     justify-content: space-between;
     background-color: var(--bg-card);
     border: 1.5px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 1.25rem;
-    transition: var(--transition-smooth);
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+}
+
+.item-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -1px rgba(0, 0, 0, 0.08), 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+    border-color: #cbd5e1;
 }
 
 .item-card.selected {
     background-color: var(--eco-green-light) !important;
     border-color: var(--eco-green) !important;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08);
+}
+
+.item-card.selected:hover {
+    box-shadow: 0 12px 24px rgba(16, 185, 129, 0.15);
 }
 
 .item-image {

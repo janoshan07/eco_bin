@@ -91,70 +91,89 @@ const ScheduleCollection = () => {
   };
 
   return (
-    <div>
+    <div className="recycle-workspace">
       <ProgressBar activeStep={3} />
       
-      <div className="schedule-container1">
-        <h3>Schedule a collections slot</h3>
+      <div className="schedule-card-container">
+        <div className="schedule-card-header">
+          <h3>Schedule Collection Slot</h3>
+          <p className="schedule-card-subtitle">Provide your collection address and select a convenient date and time.</p>
+        </div>
 
-        <div className="schedule-form2">
-          <label>
-            <span>Address:</span>
+        <div className="schedule-form-modern">
+          <div className="form-group-modern">
+            <label htmlFor="address-input">
+              <i className="bx bx-map"></i> Address
+            </label>
             <input
+              id="address-input"
               type="text"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              placeholder="Enter your address"
+              placeholder="Enter your street address, building, city"
             />
-          </label>
+          </div>
 
-          <label>
-            <span>District:</span>
-            <select value={district} onChange={(e) => setDistrict(e.target.value)}>
-              <option value="">Select District</option>
-              <option value="Colombo">Colombo</option>
-                <option value="Gampaha">Gampaha</option>
-                <option value="Kalutara">Kalutara</option>
-                <option value="Kandy">Kandy</option>
-                <option value="Matale">Matale</option>
-                <option value="Nuwara Eliya">Nuwara Eliya</option>
-                <option value="Galle">Galle</option>
-                <option value="Matara">Matara</option>
-                <option value="Hambantota">Hambantota</option>
-                <option value="Jaffna">Jaffna</option>
-                <option value="Kilinochchi">Kilinochchi</option>
-                <option value="Mannar">Mannar</option>
-                <option value="Vavuniya">Vavuniya</option>
-                <option value="Mullaitivu">Mullaitivu</option>
-                <option value="Trincomalee">Trincomalee</option>
-                <option value="Batticaloa">Batticaloa</option>
-                <option value="Ampara">Ampara</option>
-                <option value="Kurunegala">Kurunegala</option>
-                <option value="Puttalam">Puttalam</option>
-                <option value="Anuradhapura">Anuradhapura</option>
-                <option value="Polonnaruwa">Polonnaruwa</option>
-                <option value="Badulla">Badulla</option>
-                <option value="Monaragala">Monaragala</option>
-                <option value="Ratnapura">Ratnapura</option>
-                <option value="Kegalle">Kegalle</option>
+          <div className="form-row-grid">
+            <div className="form-group-modern">
+              <label htmlFor="district-select">
+                <i className="bx bx-map-pin"></i> District
+              </label>
+              <div className="select-wrapper">
+                <select id="district-select" value={district} onChange={(e) => setDistrict(e.target.value)}>
+                  <option value="">Select District</option>
+                  <option value="Colombo">Colombo</option>
+                  <option value="Gampaha">Gampaha</option>
+                  <option value="Kalutara">Kalutara</option>
+                  <option value="Kandy">Kandy</option>
+                  <option value="Matale">Matale</option>
+                  <option value="Nuwara Eliya">Nuwara Eliya</option>
+                  <option value="Galle">Galle</option>
+                  <option value="Matara">Matara</option>
+                  <option value="Hambantota">Hambantota</option>
+                  <option value="Jaffna">Jaffna</option>
+                  <option value="Kilinochchi">Kilinochchi</option>
+                  <option value="Mannar">Mannar</option>
+                  <option value="Vavuniya">Vavuniya</option>
+                  <option value="Mullaitivu">Mullaitivu</option>
+                  <option value="Trincomalee">Trincomalee</option>
+                  <option value="Batticaloa">Batticaloa</option>
+                  <option value="Ampara">Ampara</option>
+                  <option value="Kurunegala">Kurunegala</option>
+                  <option value="Puttalam">Puttalam</option>
+                  <option value="Anuradhapura">Anuradhapura</option>
+                  <option value="Polonnaruwa">Polonnaruwa</option>
+                  <option value="Badulla">Badulla</option>
+                  <option value="Monaragala">Monaragala</option>
+                  <option value="Ratnapura">Ratnapura</option>
+                  <option value="Kegalle">Kegalle</option>
+                </select>
+              </div>
+            </div>
 
-            </select>
-          </label>
+            <div className="form-group-modern">
+              <label htmlFor="date-picker-input">
+                <i className="bx bx-time-five"></i> Preferred Date & Time
+              </label>
+              <div className="datepicker-wrapper">
+                <DatePicker
+                  id="date-picker-input"
+                  selected={selectedDate}
+                  onChange={(date) => setSelectedDate(date)}
+                  showTimeSelect
+                  dateFormat="Pp"
+                  className="date-picker"
+                />
+              </div>
+            </div>
+          </div>
 
-          <label>
-            <span>Date & Time:</span>
-            <DatePicker
-              selected={selectedDate}
-              onChange={(date) => setSelectedDate(date)}
-              showTimeSelect
-              dateFormat="Pp"
-              className="date-picker"
-            />
-          </label>
-
-          <button className="confirm-button" onClick={handleConfirm}>
-            Confirm
-          </button>
+          <div className="schedule-actions-footer">
+            <button className="schedule-confirm-btn" onClick={handleConfirm}>
+              <span>Confirm Pickup Slot</span>
+              <i className="bx bx-calendar-check"></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>

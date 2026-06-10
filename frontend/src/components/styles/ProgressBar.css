@@ -1,102 +1,180 @@
-/* Main container for the progress bar */
-.progress-container1 {
-  
+/* Container for the progress bar */
+.progress-container-modern {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center the progress bar */
-  margin: 20px 0;
+  align-items: center;
+  margin: 1rem 0 1.5rem 0; /* Tightened layout spacing to eliminate white space */
+  width: 100%;
 }
 
-/* Progress bar styling */
-.progress-bar1 {
-  margin-top: 150px;
-  display: flex; /* Display items in a row */
-  align-items: center; /* Center the progress bar vertically */
-  width: 50% !important; /* Take the full width of the container */
-  max-width: 800px; /* Set a max width for larger screens */
-  justify-content: space-between; /* Evenly distribute the space */
+/* Timeline navigation layout */
+.progress-timeline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   position: relative;
-  margin-left: 80px;
-  margin-right: 80px;
+  width: 100%;
+  max-width: 800px;
+  padding: 1.5rem 1rem 1rem 1rem;
 }
 
-/* Individual step circles */
-.progress-step1 {
-  width: 25px !important; /* Circle width */
-  height: 25px !important; /* Circle height */
-  background-color: #ddd; /* Default inactive color */
-  border-radius: 50%; /* Make it a circle */
-  border: 2px solid #ddd; /* Border to indicate circle */
-  z-index: 1; /* Place circles on top of lines */
-  position: relative; /* Position relative to the lines */
+/* Timeline background line */
+.progress-line-background {
+  position: absolute;
+  top: 37px; /* Aligned vertically with circle center */
+  left: 60px;
+  right: 60px;
+  height: 6px;
+  background-color: #e2e8f0;
+  border-radius: 4px;
+  z-index: 1;
 }
 
-/* Line between steps */
-.progress-line1 {
-  height: 12px !important; /* Use !important to ensure the height is applied */
-  flex-grow: 1; /* Make the line take up remaining space between steps */
-  background-color: #ddd; /* Default inactive color */
-  margin: 0 -12px; /* Adjust margin to make line touch circles */
-  z-index: -1; /* Place line below the circles */
+/* Timeline active fill line */
+.progress-line-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #059669);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+  border-radius: 4px;
+  transition: width 0.4s ease;
 }
 
-/* Active step circle */
-.progress-step1.active1 {
-  background-color: #318a62; /* Green background for active */
-  border-color: #318a62; /* Green border for active */
+/* Step node styling */
+.progress-step-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  flex: 1;
 }
 
-/* Active line */
-.progress-line1.active1 {
-  background-color: #318a62; /* Green color for active line */
+/* The circular node badge */
+.step-circle-3d {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 3px solid #e2e8f0;
+  color: #94a3b8;
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), inset 0 -2px 0 rgba(0,0,0,0.05);
 }
 
-/* Title below the progress bar */
-.progress-container1 h2 {
-  font-size: 24px;
+.step-circle-3d i {
+  font-size: 1.4rem;
   font-weight: bold;
-  margin-top: 10px;
+}
+
+/* Glow effect overlay */
+.step-glow {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0) 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+/* Active step node */
+.progress-step-node.active .step-circle-3d {
+  border-color: #10b981;
+  color: #10b981;
+  background-color: #ffffff;
+  transform: scale(1.1);
+  box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.2), inset 0 -2px 0 rgba(16, 185, 129, 0.1);
+}
+
+.progress-step-node.active .step-glow {
+  opacity: 1;
+}
+
+/* Completed step node */
+.progress-step-node.completed .step-circle-3d {
+  border-color: #10b981;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+
+/* Step text label style */
+.step-label {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #64748b;
+  text-align: center;
+  transition: color 0.3s ease;
+  white-space: nowrap;
+}
+
+.progress-step-node.active .step-label {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.progress-step-node.completed .step-label {
+  color: #059669;
+}
+
+/* Title at the bottom */
+.progress-title-modern {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-top: 1rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.025em;
+  position: relative;
+}
+
+.progress-title-modern::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #10b981, #059669);
+  border-radius: 2px;
 }
 
 /* Mobile responsive styles */
 @media (max-width: 768px) {
-  .progress-bar1 {
-    width: 200px; /* Make the progress bar width more fluid on mobile */
-    margin-left: 20px;
-    margin-right: 20px;
-    padding-top: 30px;
+  .progress-line-background {
+    left: 45px;
+    right: 45px;
+    top: 33px;
   }
-
-  .progress-step1 {
-    width: 20px; /* Reduce circle size on smaller screens */
-    height: 20px;
+  
+  .step-circle-3d {
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
+    border-width: 2px;
   }
-
-  .progress-line1 {
-    height: 8px; /* Reduce line thickness on smaller screens */
+  
+  .step-circle-3d i {
+    font-size: 1.1rem;
   }
-
-  .progress-container1 h2 {
-    font-size: 20px; /* Adjust font size for smaller screens */
+  
+  .step-label {
+    font-size: 0.7rem;
+    margin-top: 0.5rem;
   }
-}
-
-@media (max-width: 480px) {
-  .progress-bar1 {
-    width: 95%; /* Maximize width for smaller mobile screens */
-    margin-top: 100px;
-  }
-
-  .progress-step1 {
-    width: 18px; /* Further reduce circle size for very small screens */
-    height: 18px;
-  }
-
-  .progress-line1 {
-    height: 6px; /* Further reduce line thickness for small screens */
-  }
-
-  .progress-container1 h2 {
-    font-size: 18px; /* Smaller title for mobile */
+  
+  .progress-title-modern {
+    font-size: 1.35rem;
   }
 }
