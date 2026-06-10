@@ -17,6 +17,10 @@ const Home = () => {
 
     return (
         <div className="recycle-hub-container">
+            {/* Back Navigation */}
+            <button className="hub-back-btn" onClick={() => navigate('/UserHome')}>
+                <i className="bx bx-left-arrow-alt"></i> Back to Dashboard
+            </button>
             {/* Hub Header */}
             <div className="hub-welcome">
                 <h2>Recycle Hub</h2>

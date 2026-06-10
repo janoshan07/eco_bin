@@ -3,10 +3,16 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/Summary.css';
 import ProgressBar from './ProgressBar';
 
-const Summary = () => {
+const Summary = ({ userName: propUserName, userEmail: propUserEmail }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { items, totalWeight, totalPrice, userName, userEmail } = location.state || {}; // Destructure userName and userEmail from location state
+  const stateData = location.state || {};
+  const items = stateData.items || {};
+  const totalWeight = stateData.totalWeight || 0;
+  const totalPrice = stateData.totalPrice || 0;
+  const userName = stateData.userName || propUserName || localStorage.getItem('userName') || '';
+  const userEmail = stateData.userEmail || propUserEmail || localStorage.getItem('userEmail') || '';
+
   const serviceFee = 20.0; // Fixed service fee
   const toReceive = (totalPrice - serviceFee).toFixed(2);
 
@@ -26,8 +32,8 @@ const Summary = () => {
         totalWeight,
         totalPrice,
         paymentMethod: selectedPaymentMethod, // Make sure this is correctly defined
-        userName: localStorage.getItem('userName'), // Get from local storage or context
-        userEmail: localStorage.getItem('userEmail'), // Get from local storage or context
+        userName,
+        userEmail,
       },
     });
   };
@@ -145,8 +151,12 @@ const Summary = () => {
           </div>
         </div>
 
-        {/* Navigation Button */}
+        {/* Navigation Buttons */}
         <div className="summary-actions-footer">
+          <button className="wizard-back-btn" onClick={() => navigate('/recycle-management')}>
+            <i className="bx bx-left-arrow-alt"></i>
+            <span>Back</span>
+          </button>
           <button className="summary-next-btn" onClick={handleNextClick}>
             <span>Continue</span>
             <i className="bx bx-right-arrow-alt"></i>

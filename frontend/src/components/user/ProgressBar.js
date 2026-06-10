@@ -11,6 +11,11 @@ const ProgressBar = ({ activeStep }) => {
 
   return (
     <div className="progress-container-modern">
+      <div className="hub-welcome">
+        <h2>Recycle Management Unit</h2>
+        <p>Track your recycling transactions, log recyclable garbage items, and review earnings.</p>
+      </div>
+
       <div className="progress-timeline">
         <div className="progress-line-background">
           <div 
@@ -41,7 +46,6 @@ const ProgressBar = ({ activeStep }) => {
           );
         })}
       </div>
-      <h2 className="progress-title-modern">Recycle Management Unit</h2>
     </div>
   );
 };

@@ -106,8 +106,12 @@ const RecycleManagement = ({ items, setItems }) => {
           ))}
         </div>
 
-        {/* Navigation Button */}
+        {/* Navigation Buttons */}
         <div className="next-button-container">
+          <button className="wizard-back-btn" onClick={() => navigate('/recyclehome')}>
+            <i className="bx bx-left-arrow-alt"></i>
+            <span>Cancel</span>
+          </button>
           <button className="next-button" onClick={handleNext}>
             <span>Next</span>
             <i className="bx bx-right-arrow-alt"></i>

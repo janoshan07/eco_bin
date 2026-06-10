@@ -86,13 +86,15 @@ function App() {
     const fetchUserData = async () => {
         try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/api/auth/user', {
+        const response = await axios.get('http://localhost:8070/api/auth/user', {
             headers: {
             'x-auth-token': token,
             },
         });
         setUserName(response.data.name);
         setUserEmail(response.data.email);
+        localStorage.setItem('userName', response.data.name);
+        localStorage.setItem('userEmail', response.data.email);
         } catch (error) {
         console.error('Failed to fetch user data', error);
         }

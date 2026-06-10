@@ -2,7 +2,7 @@
 .progress-container-modern {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   margin: 1rem 0 1.5rem 0; /* Tightened layout spacing to eliminate white space */
   width: 100%;
 }
@@ -15,6 +15,7 @@
   position: relative;
   width: 100%;
   max-width: 800px;
+  margin: 0 auto;
   padding: 1.5rem 1rem 1rem 1rem;
 }
 
@@ -127,28 +128,7 @@
   color: #059669;
 }
 
-/* Title at the bottom */
-.progress-title-modern {
-  font-size: 1.75rem;
-  font-weight: 800;
-  color: #0f172a;
-  margin-top: 1rem;
-  margin-bottom: 0.75rem;
-  letter-spacing: -0.025em;
-  position: relative;
-}
 
-.progress-title-modern::after {
-  content: '';
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 4px;
-  background: linear-gradient(90deg, #10b981, #059669);
-  border-radius: 2px;
-}
 
 /* Mobile responsive styles */
 @media (max-width: 768px) {
@@ -174,7 +154,5 @@
     margin-top: 0.5rem;
   }
   
-  .progress-title-modern {
-    font-size: 1.35rem;
-  }
+
 }

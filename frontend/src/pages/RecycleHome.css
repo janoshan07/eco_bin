@@ -4,6 +4,36 @@
     width: 100%;
 }
 
+.hub-back-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    transition: var(--transition-smooth);
+    width: fit-content;
+}
+
+.hub-back-btn i {
+    font-size: 1.25rem;
+    transition: var(--transition-smooth);
+}
+
+.hub-back-btn:hover {
+    color: var(--eco-green);
+}
+
+.hub-back-btn:hover i {
+    transform: translateX(-4px);
+}
+
 
 
 /* Hub Action Card Grid */

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/RecycleHistory.css';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import logo from '../../Assets/logo.png'; // ✅ Add logo
 
-const RecycleHistory = () => {
+const RecycleHistory = ({ userEmail: propUserEmail }) => {
+  const navigate = useNavigate();
   const [history, setHistory] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [editingRecord, setEditingRecord] = useState(null);
@@ -15,9 +17,10 @@ const RecycleHistory = () => {
     status: ''
   });
 
-  const userEmail = localStorage.getItem('userEmail');
+  const userEmail = propUserEmail || localStorage.getItem('userEmail');
 
   useEffect(() => {
+    if (!userEmail) return;
     const fetchHistory = async () => {
       try {
         const token = localStorage.getItem('token');
@@ -246,64 +249,111 @@ const RecycleHistory = () => {
   };
 
   return (
-    <>
-      <div className="history-container">
+    <div className="recycle-workspace">
+      <button className="history-back-btn" onClick={() => navigate('/recyclehome')}>
+        <i className="bx bx-left-arrow-alt"></i> Back to Hub
+      </button>
+      <div className="hub-welcome">
         <h2>Recycle History</h2>
+        <p>Explore your past recycling deposits, download invoice statements, and manage active scheduling details.</p>
+      </div>
 
-        {/* Search + PDF */}
-        <div className="history-actions">
+      <div className="history-header-actions-row">
+        <div className="history-search-wrapper">
+          <i className="bx bx-search search-icon-left"></i>
           <input
             type="text"
-            placeholder="Search by item name..."
+            placeholder="Search history by item name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="history-search-input"
+            className="history-search-input-modern"
           />
-          <button onClick={generatePDF} className="history-pdf-btn">
-            Download PDF
-          </button>
         </div>
+        <button onClick={generatePDF} className="history-download-pdf-btn">
+          <i className="bx bx-file-blank"></i> Download PDF Report
+        </button>
+      </div>
 
-        {filteredHistory.length > 0 ? (
-          filteredHistory.map((record) => (
-            <div key={record._id} className="history-card">
-              <div className="left-section">
-                <div className="left-box">
+      {filteredHistory.length > 0 ? (
+        filteredHistory.map((record) => (
+          <div key={record._id} className="history-split-card">
+            <div className="history-items-column">
+              <div className="history-table-card">
+                <div className="table-header-row">
+                  <span>Material</span>
+                  <span>Weight</span>
+                  <span>Est. Value</span>
+                </div>
+                <div className="table-body-rows">
                   {record.items.map((item, index) => (
-                    <div className="item-row" key={index}>
-                      <span>{item.itemName}</span>
+                    <div className="summary-item-row" key={index}>
+                      <span className="material-name-lbl">{item.itemName.charAt(0).toUpperCase() + item.itemName.slice(1)}</span>
                       <span>{item.weight} kg</span>
-                      <span>Rs {item.total.toFixed(2)}</span>
+                      <span className="material-price-val">Rs. {item.total.toFixed(2)}</span>
                     </div>
                   ))}
-                  <div className="total-row">
-                    <span>Total</span>
+                </div>
+                <div className="summary-totals-section">
+                  <div className="totals-row">
+                    <span>Total Weight & Value</span>
                     <span>{record.totalWeight} kg</span>
-                    <span>Rs {record.totalPrice.toFixed(2)}</span>
+                    <span>Rs. {record.totalPrice.toFixed(2)}</span>
                   </div>
-                  <div className="service-fee">
-                    <span>Service Fee</span>
-                    <span>- Rs 20.00</span>
+                  <div className="totals-row service-fee-row">
+                    <span>Platform Service Fee</span>
+                    <span></span>
+                    <span>- Rs. 20.00</span>
                   </div>
-                  <div className="to-receive">
-                    <span>To Receive</span>
-                    <span>Rs {record.toReceive.toFixed(2)}</span>
+                  <div className="totals-row net-receive-row">
+                    <span>Net Payout</span>
+                    <span></span>
+                    <span className="net-receive-val">Rs. {record.toReceive.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
-              <div className="right-section">
-                <p><strong>Payment Method:</strong> {record.paymentType}</p>
-                <p><strong>Date & Time:</strong> {new Date(record.dateTime).toLocaleString()}</p>
-                <p className="statuss"><strong>Status:</strong> {record.status || 'Pending'}</p>
-                <button className="update-btn" onClick={() => handleEdit(record)}>Update</button>
-                <button className="delete-btn" onClick={() => handleDelete(record._id)}>Delete</button>
+            </div>
+
+            <div className="history-details-column">
+              <div className="history-detail-group">
+                <div className="detail-row">
+                  <span className="detail-lbl">
+                    <i className="bx bx-wallet detail-icon"></i> Payment Method
+                  </span>
+                  <span className="detail-val">{record.paymentType}</span>
+                </div>
+                <div className="detail-row">
+                  <span className="detail-lbl">
+                    <i className="bx bx-calendar detail-icon"></i> Date & Time
+                  </span>
+                  <span className="detail-val">{new Date(record.dateTime).toLocaleString()}</span>
+                </div>
+                <div className="detail-row">
+                  <span className="detail-lbl">
+                    <i className="bx bx-badge-check detail-icon"></i> Status
+                  </span>
+                  <span className={`status-badge ${(record.status || 'Pending').toLowerCase()}`}>
+                    {record.status || 'Pending'}
+                  </span>
+                </div>
+              </div>
+
+              <div className="history-card-actions">
+                <button className="history-update-btn" onClick={() => handleEdit(record)}>
+                  <i className="bx bx-edit"></i> Edit Request
+                </button>
+                <button className="history-delete-btn" onClick={() => handleDelete(record._id)}>
+                  <i className="bx bx-trash"></i> Cancel Request
+                </button>
               </div>
             </div>
-          ))
-        ) : (
+          </div>
+        ))
+      ) : (
+        <div className="no-history-card">
+          <i className="bx bx-receipt no-history-icon"></i>
           <p>No recycle history found.</p>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Update Modal */}
       {editingRecord && (
@@ -405,7 +455,7 @@ const RecycleHistory = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

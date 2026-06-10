@@ -6,12 +6,15 @@ import ProgressBar from './ProgressBar';
 import '../styles/ScheduleCollection.css';
 import moment from 'moment-timezone'; // Import moment for precise time handling
 
-const ScheduleCollection = () => {
+const ScheduleCollection = ({ userName: propUserName, userEmail: propUserEmail }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
   console.log('Location State:', location.state);
-  const { items, totalWeight = 0, totalPrice = 0, paymentMethod = 'Cash', userName = '', userEmail = '' } = location.state || {};
+  const stateData = location.state || {};
+  const { items, totalWeight = 0, totalPrice = 0, paymentMethod = 'Cash' } = stateData;
+  const userName = stateData.userName || propUserName || localStorage.getItem('userName') || '';
+  const userEmail = stateData.userEmail || propUserEmail || localStorage.getItem('userEmail') || '';
 
   const serviceFee = 20.0;
   const toReceive = (totalPrice - serviceFee).toFixed(2);
@@ -169,6 +172,18 @@ const ScheduleCollection = () => {
           </div>
 
           <div className="schedule-actions-footer">
+            <button
+              type="button"
+              className="wizard-back-btn"
+              onClick={() =>
+                navigate('/summary', {
+                  state: { items, totalWeight, totalPrice, userName, userEmail, paymentMethod }
+                })
+              }
+            >
+              <i className="bx bx-left-arrow-alt"></i>
+              <span>Back</span>
+            </button>
             <button className="schedule-confirm-btn" onClick={handleConfirm}>
               <span>Confirm Pickup Slot</span>
               <i className="bx bx-calendar-check"></i>
