@@ -3,8 +3,8 @@ import axios from 'axios';
 import '../styles/SeeGarbageDetails.css';
 import SideBar from './SideBar';
 import { useNavigate } from 'react-router-dom';
-import jsPDF from 'jspdf'; // Correctly importing jsPDF
-import 'jspdf-autotable'; // Correctly importing the autotable plugin
+import { jsPDF } from 'jspdf'; // Correctly importing jsPDF
+import autoTable from 'jspdf-autotable'; // Correctly importing the autotable plugin
 
 const SeeGarbageDetails = () => {
   const [garbageDetails, setGarbageDetails] = useState([]);
@@ -49,35 +49,40 @@ const SeeGarbageDetails = () => {
   };
 
   const generatePDFReport = () => {
-    const doc = new jsPDF();
+    try {
+      const doc = new jsPDF();
 
-    doc.setFontSize(18);
-    doc.text('Garbage Details Report', 14, 22); // Title
+      doc.setFontSize(18);
+      doc.text('Garbage Details Report', 14, 22); // Title
 
-    // Table Headers
-    const headers = [['Name', 'Contact Number', 'Type', 'Weight (Kg)', 'Additional Notes']];
+      // Table Headers
+      const headers = [['Name', 'Contact Number', 'Type', 'Weight (Kg)', 'Additional Notes']];
 
-    // Table Rows
-    const rows = garbageDetails.map(garbage => [
-      garbage.name,
-      garbage.contactNumber,
-      garbage.type,
-      garbage.weight,
-      garbage.additionalNotes || 'N/A',
-    ]);
+      // Table Rows
+      const rows = garbageDetails.map(garbage => [
+        garbage.name,
+        garbage.contactNumber,
+        garbage.type,
+        garbage.weight,
+        garbage.additionalNotes || 'N/A',
+      ]);
 
-    // Add table to the PDF
-    doc.autoTable({
-      startY: 30,
-      head: headers,
-      body: rows,
-      headStyles: {
-        fillColor: '#1e9c33',
-        textColor: [255, 255, 255], 
-      },
-    });
+      // Add table to the PDF
+      autoTable(doc, {
+        startY: 30,
+        head: headers,
+        body: rows,
+        headStyles: {
+          fillColor: '#1e9c33',
+          textColor: [255, 255, 255], 
+        },
+      });
 
-    doc.save('garbage_details_report.pdf'); // Save the PDF
+      doc.save('garbage_details_report.pdf'); // Save the PDF
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      alert("Failed to generate PDF. Please try again.");
+    }
   };
 
   // Filtered garbage details based on search term

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import SideBar from './SideBar';
 import Footer from '../Footer';
 import './../styles/AllCompostRequests.css';
@@ -50,23 +50,28 @@ export default function AllCompostRequests() {
     );
 
     const generatePDF = () => {
-        const doc = new jsPDF();
-        doc.text('Compost Requests Report', 14, 10);
-        const tableData = filteredRequests.map((item, index) => [
-            index + 1,
-            item.email,
-            item.potential,
-            item.amount,
-            item.cost,
-            item.status
-        ]);
+        try {
+            const doc = new jsPDF();
+            doc.text('Compost Requests Report', 14, 10);
+            const tableData = filteredRequests.map((item, index) => [
+                index + 1,
+                item.email,
+                item.potential,
+                item.amount,
+                item.cost,
+                item.status
+            ]);
 
-        doc.autoTable({
-            head: [['#', 'Email', 'Potential (kg)', 'Amount (kg)', 'Cost (Rs)', 'Status']],
-            body: tableData
-        });
+            autoTable(doc, {
+                head: [['#', 'Email', 'Potential (kg)', 'Amount (kg)', 'Cost (Rs)', 'Status']],
+                body: tableData
+            });
 
-        doc.save('compost_requests.pdf');
+            doc.save('compost_requests.pdf');
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            alert('Failed to generate PDF. Please try again.');
+        }
     };
 
     return (

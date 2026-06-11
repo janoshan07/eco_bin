@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import jsPDF from "jspdf";
-import "jspdf-autotable";
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
 import logo from "../../Assets/logo.png"; // Make sure this path is correct
 import SideBar from './SideBar';
 import '../styles/ManageCategories.css';
@@ -64,36 +64,59 @@ export default function ManageCategories() {
         // Convert logo to base64
         const getBase64ImageFromURL = (url) => {
             return new Promise((resolve, reject) => {
+                if (!url) {
+                    reject(new Error("URL is empty"));
+                    return;
+                }
+                if (url.startsWith('data:')) {
+                    resolve(url);
+                    return;
+                }
                 const img = new Image();
-                img.crossOrigin = "Anonymous";
+                if (url.startsWith('/') || url.startsWith(window.location.origin)) {
+                    // Same-origin, no crossOrigin config needed
+                } else {
+                    img.crossOrigin = "Anonymous";
+                }
                 img.src = url;
                 img.onload = () => {
-                    const canvas = document.createElement("canvas");
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    const ctx = canvas.getContext("2d");
-                    ctx.drawImage(img, 0, 0);
-                    const dataURL = canvas.toDataURL("image/png");
-                    resolve(dataURL);
+                    try {
+                        const canvas = document.createElement("canvas");
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        const ctx = canvas.getContext("2d");
+                        ctx.drawImage(img, 0, 0);
+                        const dataURL = canvas.toDataURL("image/png");
+                        resolve(dataURL);
+                    } catch (err) {
+                        reject(err);
+                    }
                 };
                 img.onerror = (err) => reject(err);
             });
         };
 
         try {
-            const logoBase64 = await getBase64ImageFromURL(logo);
+            let logoBase64 = null;
+            try {
+                logoBase64 = await getBase64ImageFromURL(logo);
+            } catch (err) {
+                console.warn("Failed to load logo for PDF:", err);
+            }
 
             // ===== HEADER =====
-            doc.addImage(logoBase64, "PNG", pageWidth / 2 - 15, 10, 30, 30);
+            if (logoBase64) {
+                doc.addImage(logoBase64, "PNG", pageWidth / 2 - 15, 10, 30, 30);
+            }
             doc.setFont("helvetica", "bold");
             doc.setFontSize(20);
             doc.setTextColor(34, 139, 34);
-            doc.text("Category List Report", pageWidth / 2, 50, { align: "center" });
+            doc.text("Category List Report", pageWidth / 2, logoBase64 ? 50 : 25, { align: "center" });
 
             doc.setFontSize(12);
             doc.setTextColor(80, 80, 80);
             const generatedDate = new Date().toLocaleString();
-            doc.text(`Generated on: ${generatedDate}`, pageWidth / 2, 58, { align: "center" });
+            doc.text(`Generated on: ${generatedDate}`, pageWidth / 2, logoBase64 ? 58 : 33, { align: "center" });
 
             // ===== TABLE =====
             const tableColumns = ["No", "Category Name", "Description"];
@@ -103,10 +126,10 @@ export default function ManageCategories() {
                 item.description || "N/A"
             ]);
 
-            doc.autoTable({
+            autoTable(doc, {
                 head: [tableColumns],
                 body: tableRows,
-                startY: 70,
+                startY: logoBase64 ? 70 : 45,
                 theme: "grid",
                 headStyles: {
                     fillColor: [46, 204, 113],
@@ -123,7 +146,7 @@ export default function ManageCategories() {
                 },
                 alternateRowStyles: { fillColor: [240, 255, 240] },
                 styles: { lineColor: [180, 180, 180], lineWidth: 0.2, cellPadding: 4 },
-                margin: { top: 40 },
+                margin: { top: logoBase64 ? 40 : 20 },
                 didDrawPage: function (data) {
                     const pageCount = doc.internal.getNumberOfPages();
                     doc.setFontSize(10);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { jsPDF } from 'jspdf'; // Import jsPDF
+import autoTable from 'jspdf-autotable';
 import '../styles/AdminTable.css';
 import SideBar from './SideBar';
 
@@ -51,32 +52,37 @@ const AdminTable = () => {
 
   // Generate PDF
   const generatePDF = () => {
-    const doc = new jsPDF();
+    try {
+      const doc = new jsPDF();
 
-    // Add Title to the PDF
-    doc.setFontSize(18);
-    doc.text('Recycle Management', 14, 20);
+      // Add Title to the PDF
+      doc.setFontSize(18);
+      doc.text('Recycle Management', 14, 20);
 
-    // Add Table Headers
-    const headers = ['Address', 'District', 'Date & Time', 'Recycle Items', 'Payment Type', 'Total', 'Status'];
-    let startY = 30;
-    doc.setFontSize(12);
-    doc.autoTable({
-      head: [headers],
-      body: filteredCollections.map((collection) => [
-        collection.address,
-        collection.district,
-        new Date(collection.dateTime).toLocaleString(),
-        collection.items.map(item => `${item.itemName} - ${item.weight}kg`).join(', '),
-        collection.paymentType,
-        collection.toReceive,
-        collection.status || 'pending',
-      ]),
-      startY: startY,
-    });
+      // Add Table Headers
+      const headers = ['Address', 'District', 'Date & Time', 'Recycle Items', 'Payment Type', 'Total', 'Status'];
+      let startY = 30;
+      doc.setFontSize(12);
+      autoTable(doc, {
+        head: [headers],
+        body: filteredCollections.map((collection) => [
+          collection.address,
+          collection.district,
+          new Date(collection.dateTime).toLocaleString(),
+          collection.items.map(item => `${item.itemName} - ${item.weight}kg`).join(', '),
+          collection.paymentType,
+          collection.toReceive,
+          collection.status || 'pending',
+        ]),
+        startY: startY,
+      });
 
-    // Download the generated PDF
-    doc.save('recycle_management.pdf');
+      // Download the generated PDF
+      doc.save('recycle_management.pdf');
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      alert("Failed to generate PDF. Please try again.");
+    }
   };
 
   return (

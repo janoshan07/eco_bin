@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import jsPDF from "jspdf";
-import "jspdf-autotable";
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
 import SideBar from './SideBar';
 import '../styles/ManageCategories.css';
 
@@ -54,30 +54,35 @@ export default function ManageRoutes() {
     };
 
     const generatePDF = () => {
-        const doc = new jsPDF();
-        doc.text("Route Details Report", 14, 15);
-        const tableColumn = ["No", "Date", "Route", "Time"];
-        const tableRows = [];
+        try {
+            const doc = new jsPDF();
+            doc.text("Route Details Report", 14, 15);
+            const tableColumn = ["No", "Date", "Route", "Time"];
+            const tableRows = [];
 
-        routes
-            .filter(item => item.route?.toLowerCase().includes(searchTerm))
-            .forEach((item, index) => {
-                const rowData = [
-                    index + 1,
-                    item.date || "N/A",
-                    item.route || "N/A",
-                    item.time || "N/A",
-                ];
-                tableRows.push(rowData);
+            routes
+                .filter(item => item.route?.toLowerCase().includes(searchTerm))
+                .forEach((item, index) => {
+                    const rowData = [
+                        index + 1,
+                        item.date || "N/A",
+                        item.route || "N/A",
+                        item.time || "N/A",
+                    ];
+                    tableRows.push(rowData);
+                });
+
+            autoTable(doc, {
+                head: [tableColumn],
+                body: tableRows,
+                startY: 20,
             });
 
-        doc.autoTable({
-            head: [tableColumn],
-            body: tableRows,
-            startY: 20,
-        });
-
-        doc.save("route_details_report.pdf");
+            doc.save("route_details_report.pdf");
+        } catch (error) {
+            console.error("Error generating PDF:", error);
+            alert("Failed to generate PDF. Please try again.");
+        }
     };
 
     return (

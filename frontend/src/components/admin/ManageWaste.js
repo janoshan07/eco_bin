@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import jsPDF from "jspdf";
-import "jspdf-autotable";
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
 import SideBar from './SideBar';
 import '../styles/ManageCategories.css';
 
@@ -107,35 +107,40 @@ export default function ManageWaste() {
     };
 
     const generatePDF = () => {
-        const doc = new jsPDF();
-        doc.text("Waste Details Report", 14, 15);
-        const tableColumn = ["No", "Email", "Category", "Waste", "Weight", "Route", "Status"];
-        const tableRows = [];
+        try {
+            const doc = new jsPDF();
+            doc.text("Waste Details Report", 14, 15);
+            const tableColumn = ["No", "Email", "Category", "Waste", "Weight", "Route", "Status"];
+            const tableRows = [];
 
-        wastedetails
-            .filter(item =>
-                item.category?.name?.toLowerCase().includes(searchTerm)
-            )
-            .forEach((item, index) => {
-                const rowData = [
-                    index + 1,
-                    item.email || 'N/A',
-                    item.category?.name || 'N/A',
-                    item.waste || 'N/A',
-                    item.weight || 'N/A',
-                    item.route || 'N/A',
-                    item.status || 'N/A'
-                ];
-                tableRows.push(rowData);
+            wastedetails
+                .filter(item =>
+                    item.category?.name?.toLowerCase().includes(searchTerm)
+                )
+                .forEach((item, index) => {
+                    const rowData = [
+                        index + 1,
+                        item.email || 'N/A',
+                        item.category?.name || 'N/A',
+                        item.waste || 'N/A',
+                        item.weight || 'N/A',
+                        item.route || 'N/A',
+                        item.status || 'N/A'
+                    ];
+                    tableRows.push(rowData);
+                });
+
+            autoTable(doc, {
+                head: [tableColumn],
+                body: tableRows,
+                startY: 20,
             });
 
-        doc.autoTable({
-            head: [tableColumn],
-            body: tableRows,
-            startY: 20,
-        });
-
-        doc.save("waste_details_report.pdf");
+            doc.save("waste_details_report.pdf");
+        } catch (error) {
+            console.error("Error generating PDF:", error);
+            alert("Failed to generate PDF. Please try again.");
+        }
     };
 
     return (

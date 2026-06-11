@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/SeeSchedule.css';
 import SideBar from './SideBar';
-import jsPDF from 'jspdf'; // Import jsPDF
-import 'jspdf-autotable'; // Import autoTable for table generation in PDF
+import { jsPDF } from 'jspdf'; // Import jsPDF
+import autoTable from 'jspdf-autotable'; // Import autoTable for table generation in PDF
 
 const SeeSchedule = () => {
     const [schedules, setSchedules] = useState([]);
@@ -58,34 +58,39 @@ const SeeSchedule = () => {
 
     // Function to generate the report
     const generateReport = () => {
-        const doc = new jsPDF();
-        const tableColumn = ["ID", "Address", "District", "Date", "Time"];
-        const tableRows = [];
+        try {
+            const doc = new jsPDF();
+            const tableColumn = ["ID", "Address", "District", "Date", "Time"];
+            const tableRows = [];
 
-        schedules.forEach(schedule => {
-            const { date, time } = convertToLocalTime(schedule.dateTime); // Convert the dateTime to local
-            const scheduleData = [
-                schedule._id,
-                schedule.address,
-                schedule.district,
-                date,
-                time
-            ];
-            tableRows.push(scheduleData);
-        });
+            schedules.forEach(schedule => {
+                const { date, time } = convertToLocalTime(schedule.dateTime); // Convert the dateTime to local
+                const scheduleData = [
+                    schedule._id,
+                    schedule.address,
+                    schedule.district,
+                    date,
+                    time
+                ];
+                tableRows.push(scheduleData);
+            });
 
-        doc.text("Schedule Details Report", 14, 15);
-        doc.autoTable({
-            head: [tableColumn],
-            body: tableRows,
-            startY: 20,
-            headStyles: {
-                fillColor: '#1e9c33',
-                textColor: [255, 255, 255], 
-              },
-        });
+            doc.text("Schedule Details Report", 14, 15);
+            autoTable(doc, {
+                head: [tableColumn],
+                body: tableRows,
+                startY: 20,
+                headStyles: {
+                    fillColor: '#1e9c33',
+                    textColor: [255, 255, 255], 
+                },
+            });
 
-        doc.save("schedule_report.pdf"); // Save the PDF
+            doc.save("schedule_report.pdf"); // Save the PDF
+        } catch (error) {
+            console.error("Error generating PDF:", error);
+            alert("Failed to generate PDF. Please try again.");
+        }
     };
 
     // Filter schedules based on search term

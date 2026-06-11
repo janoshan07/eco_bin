@@ -3,8 +3,8 @@ import axios from "axios";
 import Header from "../Header";
 import "../styles/UserWasteDetails.css";
 import Footer from "../Footer";
-import jsPDF from "jspdf";
-import "jspdf-autotable";
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
 import logo from "../../Assets/logo.png"; // ✅ Import local logo at the top of your file
 
 export default function UserWasteDetails() {
@@ -126,119 +126,139 @@ export default function UserWasteDetails() {
 
   // ========================= PDF GENERATOR (With Logo FIXED) =========================
 
+  const generatePDF = async () => {
+    const doc = new jsPDF("p", "mm", "a4");
+    const pageWidth = doc.internal.pageSize.getWidth();
 
+    // Convert imported image to Base64
+    const getBase64ImageFromURL = (url) => {
+      return new Promise((resolve, reject) => {
+        if (!url) {
+          reject(new Error("URL is empty"));
+          return;
+        }
+        if (url.startsWith('data:')) {
+          resolve(url);
+          return;
+        }
+        const img = new Image();
+        if (url.startsWith('/') || url.startsWith(window.location.origin)) {
+          // Same-origin, no crossOrigin config needed
+        } else {
+          img.crossOrigin = "Anonymous";
+        }
+        img.src = url;
+        img.onload = () => {
+          try {
+            const canvas = document.createElement("canvas");
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+            const dataURL = canvas.toDataURL("image/png");
+            resolve(dataURL);
+          } catch (err) {
+            reject(err);
+          }
+        };
+        img.onerror = (err) => reject(err);
+      });
+    };
 
-const generatePDF = async () => {
-  const doc = new jsPDF("p", "mm", "a4");
-  const pageWidth = doc.internal.pageSize.getWidth();
+    try {
+      let logoBase64 = null;
+      try {
+        logoBase64 = await getBase64ImageFromURL(logo);
+      } catch (err) {
+        console.warn("Failed to load logo for PDF:", err);
+      }
 
-  // Convert imported image to Base64
-  const getBase64ImageFromURL = (url) => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.crossOrigin = "Anonymous";
-      img.src = url;
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0);
-        const dataURL = canvas.toDataURL("image/png");
-        resolve(dataURL);
-      };
-      img.onerror = (err) => reject(err);
-    });
+      // ===== HEADER =====
+      if (logoBase64) {
+        doc.addImage(logoBase64, "PNG", pageWidth / 2 - 15, 10, 30, 30);
+      }
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(20);
+      doc.setTextColor(34, 139, 34);
+      doc.text("User Waste Details Report", pageWidth / 2, logoBase64 ? 50 : 25, { align: "center" });
+
+      doc.setFontSize(12);
+      doc.setTextColor(80, 80, 80);
+      const generatedDate = new Date().toLocaleString();
+      doc.text(`Generated on: ${generatedDate}`, pageWidth / 2, logoBase64 ? 58 : 33, { align: "center" });
+
+      // ===== TABLE =====
+      const tableColumn = ["No", "Email", "Category", "Waste", "Weight", "Route", "Status"];
+      const tableRows = filteredWasteDetails.map((item, index) => [
+        index + 1,
+        item.email || "N/A",
+        getCategoryName(item.category) || "N/A",
+        item.waste || "N/A",
+        item.weight || "N/A",
+        item.route || "N/A",
+        item.status || "N/A",
+      ]);
+
+      autoTable(doc, {
+        head: [tableColumn],
+        body: tableRows,
+        startY: logoBase64 ? 70 : 45,
+        theme: "grid",
+        headStyles: {
+          fillColor: [46, 204, 113],
+          textColor: [255, 255, 255],
+          fontStyle: "bold",
+          halign: "center",
+          valign: "middle",
+          fontSize: 12,
+        },
+        bodyStyles: {
+          textColor: [50, 50, 50],
+          fontSize: 10,
+          halign: "center",
+          valign: "middle",
+        },
+        alternateRowStyles: {
+          fillColor: [240, 255, 240],
+        },
+        styles: {
+          lineColor: [180, 180, 180],
+          lineWidth: 0.2,
+          cellPadding: 4,
+        },
+        margin: { top: 40 },
+        didDrawPage: function (data) {
+          const pageCount = doc.internal.getNumberOfPages();
+          doc.setFontSize(10);
+          doc.setTextColor(100);
+          doc.text(
+            `Page ${data.pageNumber} of ${pageCount}`,
+            pageWidth - 20,
+            doc.internal.pageSize.height - 10,
+            { align: "right" }
+          );
+        },
+      });
+
+      // ===== FOOTER =====
+      const finalY = doc.lastAutoTable.finalY + 10;
+      doc.setFont("helvetica", "italic");
+      doc.setFontSize(11);
+      doc.setTextColor(100);
+      doc.text(
+        "This report was automatically generated by EcoTrack System",
+        pageWidth / 2,
+        finalY,
+        { align: "center" }
+      );
+
+      // Save file
+      doc.save("UserWasteDetails_Report.pdf");
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      alert("Failed to generate PDF. Please try again.");
+    }
   };
-
-  try {
-    // ✅ Convert imported logo to Base64
-    const logoBase64 = await getBase64ImageFromURL(logo);
-
-    // ===== HEADER =====
-    doc.addImage(logoBase64, "PNG", pageWidth / 2 - 15, 10, 30, 30);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(20);
-    doc.setTextColor(34, 139, 34);
-    doc.text("User Waste Details Report", pageWidth / 2, 50, { align: "center" });
-
-    doc.setFontSize(12);
-    doc.setTextColor(80, 80, 80);
-    const generatedDate = new Date().toLocaleString();
-    doc.text(`Generated on: ${generatedDate}`, pageWidth / 2, 58, { align: "center" });
-
-    // ===== TABLE =====
-    const tableColumn = ["No", "Email", "Category", "Waste", "Weight", "Route", "Status"];
-    const tableRows = filteredWasteDetails.map((item, index) => [
-      index + 1,
-      item.email || "N/A",
-      getCategoryName(item.category) || "N/A",
-      item.waste || "N/A",
-      item.weight || "N/A",
-      item.route || "N/A",
-      item.status || "N/A",
-    ]);
-
-    doc.autoTable({
-      head: [tableColumn],
-      body: tableRows,
-      startY: 70,
-      theme: "grid",
-      headStyles: {
-        fillColor: [46, 204, 113],
-        textColor: [255, 255, 255],
-        fontStyle: "bold",
-        halign: "center",
-        valign: "middle",
-        fontSize: 12,
-      },
-      bodyStyles: {
-        textColor: [50, 50, 50],
-        fontSize: 10,
-        halign: "center",
-        valign: "middle",
-      },
-      alternateRowStyles: {
-        fillColor: [240, 255, 240],
-      },
-      styles: {
-        lineColor: [180, 180, 180],
-        lineWidth: 0.2,
-        cellPadding: 4,
-      },
-      margin: { top: 40 },
-      didDrawPage: function (data) {
-        const pageCount = doc.internal.getNumberOfPages();
-        doc.setFontSize(10);
-        doc.setTextColor(100);
-        doc.text(
-          `Page ${data.pageNumber} of ${pageCount}`,
-          pageWidth - 20,
-          doc.internal.pageSize.height - 10,
-          { align: "right" }
-        );
-      },
-    });
-
-    // ===== FOOTER =====
-    const finalY = doc.lastAutoTable.finalY + 10;
-    doc.setFont("helvetica", "italic");
-    doc.setFontSize(11);
-    doc.setTextColor(100);
-    doc.text(
-      "This report was automatically generated by EcoTrack System",
-      pageWidth / 2,
-      finalY,
-      { align: "center" }
-    );
-
-    // Save file
-    doc.save("UserWasteDetails_Report.pdf");
-  } catch (error) {
-    console.error("Error loading logo image:", error);
-    alert("Failed to generate PDF. Please try again.");
-  }
-};
 
 
   return (

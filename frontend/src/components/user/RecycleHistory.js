@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/RecycleHistory.css';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import logo from '../../Assets/logo.png'; // ✅ Add logo
+import { useNotification } from '../../context/NotificationContext';
 
 const RecycleHistory = ({ userEmail: propUserEmail }) => {
   const navigate = useNavigate();
+  const notify = useNotification();
   const [history, setHistory] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [editingRecord, setEditingRecord] = useState(null);
@@ -37,7 +39,8 @@ const RecycleHistory = ({ userEmail: propUserEmail }) => {
   }, [userEmail]);
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this record?')) return;
+    const confirmed = await notify.confirm('Are you sure you want to delete this record?');
+    if (!confirmed) return;
     try {
       const token = localStorage.getItem('token');
       await axios.delete(`http://localhost:8070/api/recycle/${id}`, {
@@ -143,36 +146,59 @@ const RecycleHistory = ({ userEmail: propUserEmail }) => {
 
     const getBase64ImageFromURL = (url) => {
       return new Promise((resolve, reject) => {
+        if (!url) {
+          reject(new Error("URL is empty"));
+          return;
+        }
+        if (url.startsWith('data:')) {
+          resolve(url);
+          return;
+        }
         const img = new Image();
-        img.crossOrigin = "Anonymous";
+        if (url.startsWith('/') || url.startsWith(window.location.origin)) {
+          // Same-origin, no crossOrigin config needed
+        } else {
+          img.crossOrigin = "Anonymous";
+        }
         img.src = url;
         img.onload = () => {
-          const canvas = document.createElement("canvas");
-          canvas.width = img.width;
-          canvas.height = img.height;
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0);
-          const dataURL = canvas.toDataURL("image/png");
-          resolve(dataURL);
+          try {
+            const canvas = document.createElement("canvas");
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+            const dataURL = canvas.toDataURL("image/png");
+            resolve(dataURL);
+          } catch (err) {
+            reject(err);
+          }
         };
         img.onerror = (err) => reject(err);
       });
     };
 
     try {
-      const logoBase64 = await getBase64ImageFromURL(logo);
+      let logoBase64 = null;
+      try {
+        logoBase64 = await getBase64ImageFromURL(logo);
+      } catch (err) {
+        console.warn("Failed to load logo for PDF:", err);
+      }
 
       // ===== HEADER =====
-      doc.addImage(logoBase64, "PNG", pageWidth / 2 - 15, 10, 30, 30);
+      if (logoBase64) {
+        doc.addImage(logoBase64, "PNG", pageWidth / 2 - 15, 10, 30, 30);
+      }
       doc.setFont("helvetica", "bold");
       doc.setFontSize(20);
       doc.setTextColor(34, 139, 34);
-      doc.text("Recycle History Report", pageWidth / 2, 50, { align: "center" });
+      doc.text("Recycle History Report", pageWidth / 2, logoBase64 ? 50 : 25, { align: "center" });
 
       doc.setFontSize(12);
       doc.setTextColor(80, 80, 80);
       const generatedDate = new Date().toLocaleString();
-      doc.text(`Generated on: ${generatedDate}`, pageWidth / 2, 58, { align: "center" });
+      doc.text(`Generated on: ${generatedDate}`, pageWidth / 2, logoBase64 ? 58 : 33, { align: "center" });
 
       // ===== TABLE =====
       const tableColumn = [
@@ -194,13 +220,13 @@ const RecycleHistory = ({ userEmail: propUserEmail }) => {
         record.toReceive?.toFixed(2) || "0.00",
         record.paymentType || "N/A",
         record.status || "Pending",
-        new Date(record.dateTime).toLocaleString(),
+        record.dateTime ? new Date(record.dateTime).toLocaleString() : "N/A",
       ]);
 
-      doc.autoTable({
+      autoTable(doc, {
         head: [tableColumn],
         body: tableRows,
-        startY: 70,
+        startY: logoBase64 ? 70 : 45,
         theme: "grid",
         headStyles: {
           fillColor: [46, 204, 113],
