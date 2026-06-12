@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/CalculatePayment.css';
-import Header from '../Header';
-import Footer from '../Footer';
 
 const CalculatePayment = () => {
   const location = useLocation();
@@ -47,30 +45,58 @@ const CalculatePayment = () => {
   };
 
   return (
-    <>
-    <Header />
-    <div className="calculate-container">
-    <div className="calculate-payment" style={{ marginTop: '200px',marginBottom: '120px' }}>
-      <h1>Payment Details</h1>
-      {garbageId && weight ? (
-        <>
-          <p>Garbage ID: {garbageId}</p>
-          <p>Weight: {weight} Kg</p>
-          <p>Total Amount: Rs.{amount}.00</p>
-          <button onClick={handleAddPayment}>OK</button>
-        </>
-      ) : (
-        <p>No payment details available. Please go back and try again.</p>
-      )}
-      {error && <p className="error-message">{error}</p>}
-      {successMessage && <p className="success-message">{successMessage}</p>}
+    <div className="recycle-workspace">
+      <div className="schedule-card-container">
+        <div className="schedule-card-header">
+          <h3>Fee Summary & Payment Details</h3>
+          <p className="schedule-card-subtitle">Review the calculated service charge for your special garbage pickup.</p>
+        </div>
+
+        {garbageId && weight ? (
+          <div className="payment-summary-box">
+            <div className="summary-item-row">
+              <span className="summary-item-lbl">Garbage Reference ID:</span>
+              <strong className="summary-item-val">{garbageId}</strong>
+            </div>
+            <div className="summary-item-row">
+              <span className="summary-item-lbl">Estimated Weight:</span>
+              <strong className="summary-item-val">{weight} Kg</strong>
+            </div>
+            <div className="summary-item-row">
+              <span className="summary-item-lbl">Rate per Kg:</span>
+              <strong className="summary-item-val">Rs. {ratePerKg}.00</strong>
+            </div>
+            <hr className="summary-divider" />
+            <div className="summary-total-row">
+              <span className="total-title">Total Service Charge:</span>
+              <strong className="total-val">Rs. {amount}.00</strong>
+            </div>
+          </div>
+        ) : (
+          <div className="schedule-alert-msg">
+            No payment details available. Please go back and try again.
+          </div>
+        )}
+
+        {error && <p className="form-error-lbl" style={{ textAlign: 'center', marginBottom: '1rem' }}>{error}</p>}
+        {successMessage && <p className="success-message" style={{ textAlign: 'center', marginBottom: '1rem', color: 'var(--eco-green)', fontWeight: '600' }}>{successMessage}</p>}
+
+        <div className="schedule-actions-footer">
+          <button
+            type="button"
+            className="wizard-back-btn"
+            onClick={() => navigate('/addgarbageDetails')}
+          >
+            <i className="bx bx-left-arrow-alt"></i>
+            <span>Back</span>
+          </button>
+          <button className="schedule-confirm-btn" onClick={handleAddPayment} disabled={!garbageId || !amount}>
+            <span>Proceed to Payment</span>
+            <i className="bx bx-credit-card"></i>
+          </button>
+        </div>
+      </div>
     </div>
-    
-    <div className="calculatebottom-image-container"></div>
-    </div>
-    
-    <Footer />
-    </>
   );
 };
 

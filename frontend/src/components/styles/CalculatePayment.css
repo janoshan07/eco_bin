@@ -1,131 +1,52 @@
-.calculate-container {
-    background-color: white;
-    padding: 20px;
+/* Modern Calculate Payment Styles */
+
+.payment-summary-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.75rem;
+    margin: 0 auto 2rem auto;
+    max-width: 500px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
 }
 
-.calculate-payment {
-    padding: 20px;
-    max-width: 600px; 
-    margin: 0 auto; 
-    border: 1px solid #042408; 
-    border-radius: 8px; 
-    background-color: #5DB85E; 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+.summary-item-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
 }
 
-.calculate-payment h1 {
-    font-size: 24px; 
-    margin-bottom: 20px; 
-    color: #302c2c; 
+.summary-item-lbl {
+    color: var(--text-secondary);
+    font-weight: 500;
 }
 
-.calculate-payment p {
-    font-size: 18px; 
-    margin: 10px 0; 
-    color: #3f3838; 
+.summary-item-val {
+    color: var(--text-primary);
+    font-weight: 600;
 }
 
-.button-container {
-    display: flex; 
-    justify-content: space-between; 
-    margin-top: 20px; 
+.summary-divider {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 1.25rem 0;
 }
 
-.calculate-payment button {
-    padding: 10px 20px; 
-    font-size: 16px; 
-    color: #fff; 
-    background-color: #d9534f; 
-    border: none; 
-    border-radius: 4px; 
-    cursor: pointer; 
-    transition: background-color 0.3s; 
-    flex: 1; 
-    margin: 0 10px; 
-    min-width: 120px; 
+.summary-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.calculate-payment button:hover {
-    background-color: #b82f17; 
+.total-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
 }
 
-.calculate-payment .error-message {
-    color: red; 
-    font-weight: bold; 
-    margin-top: 10px; 
-}
-
-.calculate-payment .success-message {
-    color: green; 
-    font-weight: bold; 
-    margin-top: 10px; 
-}
-
-
-.calculatebottom-image-container {
-    width: 100%;
-    height: 100px;
-    margin-bottom: 40px;
-    background-image: url('../../Assets/bottompic.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-}
-
-.calculatebottom-image {
-    width: 100%;
-    max-width: 1200px;
-    height: auto;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .calculate-payment {
-        padding: 15px; 
-    }
-    
-    .calculate-payment h1 {
-        font-size: 20px; 
-    }
-
-    .calculate-payment p {
-        font-size: 17px; 
-    }
-
-    .button-container {
-        flex-direction: column; 
-        align-items: center; 
-    }
-
-    .calculate-payment button {
-        margin: 10px 0; 
-        width:150px;
-        height: 40px;
-        max-width: 300px; 
-        
-    }
-
-    .calculatebottom-image-container {
-        margin-bottom: 220px;
-        height:80px
-    }
-
-    .calculatebottom-image {
-        width: 100%;
-    }
-    
-}
-
-/* Additional Responsive Adjustments for larger screens */
-@media (min-width: 769px) {
-    .calculate-payment button {
-        width: 100px; 
-        max-width: none; 
-    }
-
-  
+.total-val {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--eco-green);
 }

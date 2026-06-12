@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import CalculatePayment from './CalculatePayment';
@@ -9,12 +9,9 @@ const mockAxios = new MockAdapter(axios);
 
 const renderComponent = (state) => {
   return render(
-    <BrowserRouter>
+    <MemoryRouter initialEntries={[{ pathname: '/addpaymentdetails', state }]}>
       <CalculatePayment />
-    </BrowserRouter>,
-    {
-      initialEntries: [{ state }],
-    }
+    </MemoryRouter>
   );
 };
 
@@ -27,9 +24,9 @@ describe('CalculatePayment Component', () => {
     const state = { garbageId: '123', weight: 5 };
     renderComponent(state);
 
-    expect(screen.getByText(/Garbage ID: 123/i)).toBeInTheDocument();
-    expect(screen.getByText(/Weight: 5 Kg/i)).toBeInTheDocument();
-    expect(screen.getByText(/Total Amount: Rs.50.00/i)).toBeInTheDocument(); // 5 * 10 = 50
+    expect(screen.getByText(/123/)).toBeInTheDocument();
+    expect(screen.getByText(/5 Kg/i)).toBeInTheDocument();
+    expect(screen.getByText(/Rs. 50.00/i)).toBeInTheDocument(); // 5 * 10 = 50
   });
 
   test('shows error message when garbageId is missing', async () => {
@@ -45,7 +42,7 @@ describe('CalculatePayment Component', () => {
 
     renderComponent(state);
     
-    fireEvent.click(screen.getByText(/OK/i));
+    fireEvent.click(screen.getByRole('button', { name: /proceed to payment/i }));
 
     expect(await screen.findByText(/Payment added successfully/i)).toBeInTheDocument();
     expect(mockAxios.history.post.length).toBe(1); // Ensure POST request was made
@@ -57,7 +54,7 @@ describe('CalculatePayment Component', () => {
 
     renderComponent(state);
 
-    fireEvent.click(screen.getByText(/OK/i));
+    fireEvent.click(screen.getByRole('button', { name: /proceed to payment/i }));
 
     expect(await screen.findByText(/Failed to add payment. Please try again later./i)).toBeInTheDocument();
   });

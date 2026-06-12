@@ -80,18 +80,20 @@ const Schedule = () => {
     };
 
     return (
-        <div className="schedule-form-wrapper">
-            <div className="schedule-form-card">
-                <div className="form-card-header">
-                    <h2>Schedule Collection Time Slot</h2>
-                    <p>Provide your pickup address details and pick a convenient date & time slot for collection.</p>
+        <div className="recycle-workspace">
+            <div className="schedule-card-container">
+                <div className="schedule-card-header">
+                    <h3>Schedule Collection Time Slot</h3>
+                    <p className="schedule-card-subtitle">Provide your pickup address details and pick a convenient date & time slot for collection.</p>
                 </div>
                 
                 {message && <div className="schedule-alert-msg">{message}</div>}
                 
-                <form onSubmit={handleSubmit} className="schedule-form">
-                    <div className="form-group-new">
-                        <label htmlFor="address">Address</label>
+                <form onSubmit={handleSubmit} className="schedule-form-modern">
+                    <div className="form-group-modern">
+                        <label htmlFor="address">
+                            <i className="bx bx-map"></i> Address
+                        </label>
                         <input
                             type="text"
                             id="address"
@@ -103,61 +105,76 @@ const Schedule = () => {
                         {errors.address && <p className="form-error-lbl">{errors.address}</p>}
                     </div>
 
-                    <div className="form-group-new">
-                        <label htmlFor="district">District</label>
-                        <select
-                            id="district"
-                            value={district}
-                            onChange={(e) => setDistrict(e.target.value)}
-                            required
-                        >
-                            <option value="">Select District</option>
-                            <option value="Gampaha">Gampaha</option>
-                            <option value="Colombo">Colombo</option>
-                            <option value="Kaluthara">Kaluthara</option>
-                            <option value="Kandy">Kandy</option>
-                            <option value="Matale">Matale</option>
-                            <option value="Nuwara Eliya">Nuwara Eliya</option>
-                            <option value="Galle">Galle</option>
-                            <option value="Hambantota">Hambantota</option>
-                            <option value="Matara">Matara</option>
-                            <option value="Jaffna">Jaffna</option>
-                            <option value="Kilinochchi">Kilinochchi</option>
-                            <option value="Mannar">Mannar</option>
-                            <option value="Vavuniya">Vavuniya</option>
-                            <option value="Mullaitivu">Mullaitivu</option>
-                            <option value="Batticaloa">Batticaloa</option>
-                            <option value="Ampara">Ampara</option>
-                            <option value="Trincomalee">Trincomalee</option>
-                            <option value="Polonnaruwa">Polonnaruwa</option>
-                            <option value="Anuradhapura">Anuradhapura</option>
-                            <option value="Kurunegala">Kurunegala</option>
-                            <option value="Puttalam">Puttalam</option>
-                            <option value="Kegalle">Kegalle</option>
-                            <option value="Ratnapura">Ratnapura</option>
-                            <option value="Badulla">Badulla</option>
-                            <option value="Monaragala">Monaragala</option>
-                        </select>
-                        {errors.district && <p className="form-error-lbl">{errors.district}</p>}
+                    <div className="form-row-grid">
+                        <div className="form-group-modern">
+                            <label htmlFor="district">
+                                <i className="bx bx-map-pin"></i> District
+                            </label>
+                            <div className="select-wrapper">
+                                <select
+                                    id="district"
+                                    value={district}
+                                    onChange={(e) => setDistrict(e.target.value)}
+                                    required
+                                >
+                                    <option value="">Select District</option>
+                                    <option value="Gampaha">Gampaha</option>
+                                    <option value="Colombo">Colombo</option>
+                                    <option value="Kaluthara">Kaluthara</option>
+                                    <option value="Kandy">Kandy</option>
+                                    <option value="Matale">Matale</option>
+                                    <option value="Nuwara Eliya">Nuwara Eliya</option>
+                                    <option value="Galle">Galle</option>
+                                    <option value="Hambantota">Hambantota</option>
+                                    <option value="Matara">Matara</option>
+                                    <option value="Jaffna">Jaffna</option>
+                                    <option value="Kilinochchi">Kilinochchi</option>
+                                    <option value="Mannar">Mannar</option>
+                                    <option value="Vavuniya">Vavuniya</option>
+                                    <option value="Mullaitivu">Mullaitivu</option>
+                                    <option value="Batticaloa">Batticaloa</option>
+                                    <option value="Ampara">Ampara</option>
+                                    <option value="Trincomalee">Trincomalee</option>
+                                    <option value="Polonnaruwa">Polonnaruwa</option>
+                                    <option value="Anuradhapura">Anuradhapura</option>
+                                    <option value="Kurunegala">Kurunegala</option>
+                                    <option value="Puttalam">Puttalam</option>
+                                    <option value="Kegalle">Kegalle</option>
+                                    <option value="Ratnapura">Ratnapura</option>
+                                    <option value="Badulla">Badulla</option>
+                                    <option value="Monaragala">Monaragala</option>
+                                </select>
+                            </div>
+                            {errors.district && <p className="form-error-lbl">{errors.district}</p>}
+                        </div>
+
+                        <div className="form-group-modern">
+                            <label htmlFor="dateTime">
+                                <i className="bx bx-time-five"></i> Date and Time Slot
+                            </label>
+                            <input
+                                type="datetime-local"
+                                id="dateTime"
+                                value={dateTime}
+                                onChange={(e) => setDateTime(e.target.value)}
+                                min={new Date().toISOString().slice(0, 16)}
+                                required
+                            />
+                            <span className="form-tip-lbl">Available hours: 8:00 AM - 5:00 PM daily</span>
+                            {errors.dateTime && <p className="form-error-lbl">{errors.dateTime}</p>}
+                        </div>
                     </div>
 
-                    <div className="form-group-new">
-                        <label htmlFor="dateTime">Date and Time Slot</label>
-                        <input
-                            type="datetime-local"
-                            id="dateTime"
-                            value={dateTime}
-                            onChange={(e) => setDateTime(e.target.value)}
-                            min={new Date().toISOString().slice(0, 16)}
-                            required
-                        />
-                        <span className="form-tip-lbl">Available hours: 8:00 AM - 5:00 PM daily</span>
-                        {errors.dateTime && <p className="form-error-lbl">{errors.dateTime}</p>}
+                    <div className="schedule-actions-footer">
+                        <button type="button" className="wizard-back-btn" onClick={() => navigate('/UserHome')}>
+                            <i className="bx bx-left-arrow-alt"></i>
+                            <span>Back</span>
+                        </button>
+                        <button type="submit" className="schedule-confirm-btn" disabled={isSubmitting}>
+                            <span>{isSubmitting ? "Processing..." : "Continue"}</span>
+                            <i className="bx bx-right-arrow-alt"></i>
+                        </button>
                     </div>
-
-                    <button type="submit" className="schedule-submit-btn" disabled={isSubmitting}>
-                        {isSubmitting ? "Processing..." : "Continue to Payment Option"}
-                    </button>
                 </form>
             </div>
         </div>

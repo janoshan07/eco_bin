@@ -2,8 +2,6 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios'; 
 import '../styles/ConfirmCollection.css';
-import Header from '../Header';
-import Footer from '../Footer';
 
 const ConfirmCollection = () => {
   const location = useLocation();
@@ -12,10 +10,11 @@ const ConfirmCollection = () => {
 
   // Handle delete schedule
   const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to cancel this scheduled pickup slot?")) return;
     try {
       await axios.delete(`http://localhost:8070/schedule/deleteschedule/${scheduleId}`);
       alert("Schedule deleted successfully!");
-      navigate("/addgarbageDetails"); 
+      navigate("/addschedule"); 
     } catch (error) {
       console.error("Error deleting schedule:", error);
       alert("Failed to delete schedule. Please try again.");
@@ -39,32 +38,74 @@ const ConfirmCollection = () => {
   };
 
   return (
-    <>
-      <Header />
-      <div className="confirm-container" style={{ paddingTop: '250px' }}>
-        <div className="confirm-card">
-          <div className="confirmcollection-details">
-            <h2>Confirm Your Collection Details</h2>
-            <p><strong>Address:</strong> {address || 'N/A'}</p>
-            <p><strong>District:</strong> {district || 'N/A'}</p>
-            <p><strong>Date:</strong> {new Date(dateTime).toLocaleDateString() || 'N/A'}</p>
-            <p><strong>Time:</strong> {new Date(dateTime).toLocaleTimeString() || 'N/A'}</p>
-          </div>
-
-          <div className="confirmicons">
-            <i className="bx bx-edit" title="Update" onClick={handleUpdate}></i>
-            <i className="bx bx-trash" title="Delete" onClick={handleDelete}></i>
-          </div>
-
-          <div className="confirmimage-container"></div>
-
-          <button className="confirm-btn" onClick={handleConfirm}>Confirm</button>
+    <div className="recycle-workspace">
+      <div className="schedule-card-container">
+        <div className="schedule-card-header">
+          <h3>Confirm Your Collection Details</h3>
+          <p className="schedule-card-subtitle">Verify your scheduled pickup location and time slot before proceeding.</p>
         </div>
 
-        <div className="confirmbottom-image-container"></div>
+        {scheduleId ? (
+          <div className="confirm-details-section">
+            <div className="confirm-details-card">
+              <div className="detail-item">
+                <i className="bx bx-map"></i>
+                <div>
+                  <strong>Address</strong>
+                  <p>{address || 'N/A'}</p>
+                </div>
+              </div>
+              <div className="detail-item">
+                <i className="bx bx-map-pin"></i>
+                <div>
+                  <strong>District</strong>
+                  <p>{district || 'N/A'}</p>
+                </div>
+              </div>
+              <div className="detail-item">
+                <i className="bx bx-calendar"></i>
+                <div>
+                  <strong>Date</strong>
+                  <p>{dateTime ? new Date(dateTime).toLocaleDateString() : 'N/A'}</p>
+                </div>
+              </div>
+              <div className="detail-item">
+                <i className="bx bx-time-five"></i>
+                <div>
+                  <strong>Time</strong>
+                  <p>{dateTime ? new Date(dateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="confirm-actions-sidebar">
+              <h4>Options</h4>
+              <button className="option-action-btn edit" onClick={handleUpdate}>
+                <i className="bx bx-edit"></i> Edit Details
+              </button>
+              <button className="option-action-btn delete" onClick={handleDelete}>
+                <i className="bx bx-trash"></i> Cancel Slot
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="schedule-alert-msg">
+            No schedule details available. Please go back and schedule a slot.
+          </div>
+        )}
+
+        <div className="schedule-actions-footer">
+          <button className="wizard-back-btn" onClick={() => navigate('/addschedule')}>
+            <i className="bx bx-left-arrow-alt"></i>
+            <span>Back</span>
+          </button>
+          <button className="schedule-confirm-btn" onClick={handleConfirm} disabled={!scheduleId}>
+            <span>Confirm & Continue</span>
+            <i className="bx bx-check-double"></i>
+          </button>
+        </div>
       </div>
-      <Footer />
-    </>
+    </div>
   );
 };
 

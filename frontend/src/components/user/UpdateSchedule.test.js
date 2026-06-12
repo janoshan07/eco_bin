@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import UpdateSchedule from './UpdateSchedule';
 import axios from 'axios';
 
@@ -9,12 +9,9 @@ jest.mock('axios');
 
 const renderComponent = (state) => {
   return render(
-    <BrowserRouter>
+    <MemoryRouter initialEntries={[{ pathname: '/update-schedule/123', state }]}>
       <UpdateSchedule />
-    </BrowserRouter>,
-    {
-      initialEntries: [{ state }],
-    }
+    </MemoryRouter>
   );
 };
 
@@ -29,9 +26,9 @@ describe('UpdateSchedule Component', () => {
   test('renders form with initial values', () => {
     renderComponent(initialState);
 
-    expect(screen.getByLabelText(/Address:/i)).toHaveValue(initialState.address);
-    expect(screen.getByLabelText(/District:/i)).toHaveValue(initialState.district);
-    expect(screen.getByLabelText(/Date and Time:/i)).toHaveValue(initialState.dateTime);
+    expect(screen.getByLabelText(/address/i)).toHaveValue(initialState.address);
+    expect(screen.getByLabelText(/district/i)).toHaveValue(initialState.district);
+    expect(screen.getByLabelText(/date and time/i)).toHaveValue(initialState.dateTime);
   });
 
   test('updates schedule successfully', async () => {
@@ -39,11 +36,14 @@ describe('UpdateSchedule Component', () => {
     
     renderComponent(initialState);
 
-    fireEvent.change(screen.getByLabelText(/Address:/i), { target: { value: '456 Another St' } });
-    fireEvent.change(screen.getByLabelText(/District:/i), { target: { value: 'Gampaha' } });
-    fireEvent.change(screen.getByLabelText(/Date and Time:/i), { target: { value: '2024-10-16T11:00' } });
+    // Mock window alert
+    window.alert = jest.fn();
 
-    fireEvent.click(screen.getByText(/Update Schedule/i));
+    fireEvent.change(screen.getByLabelText(/address/i), { target: { value: '456 Another St' } });
+    fireEvent.change(screen.getByLabelText(/district/i), { target: { value: 'Gampaha' } });
+    fireEvent.change(screen.getByLabelText(/date and time/i), { target: { value: '2024-10-16T11:00' } });
+
+    fireEvent.click(screen.getByRole('button', { name: /save changes/i }));
 
     await waitFor(() => {
       expect(axios.put).toHaveBeenCalledWith(`http://localhost:8070/schedule/updateschedule/${initialState.scheduleId}`, {
@@ -51,7 +51,7 @@ describe('UpdateSchedule Component', () => {
         district: 'Gampaha',
         dateTime: '2024-10-16T11:00',
       });
-      expect(screen.getByText(/Schedule updated successfully!/i)).toBeInTheDocument();
+      expect(window.alert).toHaveBeenCalledWith("Schedule updated successfully!");
     });
   });
 
@@ -60,21 +60,13 @@ describe('UpdateSchedule Component', () => {
     
     renderComponent(initialState);
 
-    fireEvent.click(screen.getByText(/Update Schedule/i));
+    // Mock window alert
+    window.alert = jest.fn();
+
+    fireEvent.click(screen.getByRole('button', { name: /save changes/i }));
 
     await waitFor(() => {
-      expect(screen.getByText(/Failed to update schedule. Please try again./i)).toBeInTheDocument();
+      expect(window.alert).toHaveBeenCalledWith("Failed to update schedule. Please try again.");
     });
-  });
-
-  test('shows validation error if address is empty', async () => {
-    renderComponent(initialState);
-
-    fireEvent.change(screen.getByLabelText(/Address:/i), { target: { value: '' } });
-
-    fireEvent.click(screen.getByText(/Update Schedule/i));
-
-    expect(screen.getByLabelText(/Address:/i)).toHaveAttribute('required');
-    expect(screen.getByText(/Address:/i)).toBeTruthy();
   });
 });

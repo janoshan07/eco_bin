@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import '../styles/GarbageDetails.css';
-import Header from '../Header';
-import Footer from '../Footer';
 import axios from 'axios';
 import { useNotification } from '../../context/NotificationContext';
 import { useNavigate } from 'react-router-dom';
@@ -28,6 +26,7 @@ const GarbageDetails = () => {
 
   // State for success message
   const [successMessage, setSuccessMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Handle input changes for all fields
   const handleChange = (e) => {
@@ -91,8 +90,6 @@ const GarbageDetails = () => {
   };
 
   // Handle form submission
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true); 
@@ -150,99 +147,123 @@ const GarbageDetails = () => {
       setIsSubmitting(false);
     }
   };
-  
 
   return (
-    <>
-    <Header/>
-    <div className="special-garbage-page">
-      <div className="garbageform-container" style={{ padding: '20px', marginTop: '195px', marginBottom: '95px' }}>
-        <h1>Special Garbage Details</h1>
-        {errors.form && <span className="garbageerror-message">{errors.form}</span>} 
-        {successMessage && <span className="garbagesuccess-message">{successMessage}</span>} 
-        <form onSubmit={handleSubmit}>
-        
-          <div className="garbageform-group">
-            <label htmlFor="name">Name:</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
+    <div className="recycle-workspace">
+      <div className="schedule-card-container">
+        <div className="schedule-card-header">
+          <h3>Special Garbage Details</h3>
+          <p className="schedule-card-subtitle">Provide contact information, waste category, and estimated weight for the special pickup.</p>
+        </div>
+
+        {errors.form && <div className="schedule-alert-msg">{errors.form}</div>}
+        {successMessage && <div className="success-message" style={{ color: 'var(--eco-green)', textAlign: 'center', marginBottom: '1.5rem', fontWeight: '600' }}>{successMessage}</div>}
+
+        <form onSubmit={handleSubmit} className="schedule-form-modern">
+          <div className="form-row-grid">
+            <div className="form-group-modern">
+              <label htmlFor="name">
+                <i className="bx bx-user"></i> Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter your name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group-modern">
+              <label htmlFor="contact">
+                <i className="bx bx-phone"></i> Contact Number
+              </label>
+              <input
+                type="text"
+                id="contact"
+                name="contactNumber"
+                placeholder="e.g. 0771234567"
+                value={formData.contactNumber}
+                onChange={handleChange}
+                required
+              />
+              {errors.contactNumber && <p className="form-error-lbl">{errors.contactNumber}</p>}
+            </div>
           </div>
 
-          <div className="garbageform-group">
-            <label htmlFor="contact">Contact Number:</label>
-            <input
-              type="text"
-              id="contact"
-              name="contactNumber"
-              value={formData.contactNumber}
-              onChange={handleChange}
-              required
-            />
-            {errors.contactNumber && <span className="garbageerror-message">{errors.contactNumber}</span>}
+          <div className="form-row-grid">
+            <div className="form-group-modern">
+              <label htmlFor="type">
+                <i className="bx bx-category"></i> Waste Type
+              </label>
+              <div className="select-wrapper">
+                <select
+                  id="type"
+                  name="type"
+                  value={formData.type}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Waste Type</option>
+                  <option value="heavy-garden-waste">Heavy Garden Waste</option>
+                  <option value="organic-waste">Organic Waste</option>
+                  <option value="electronic-waste">Electronic Waste</option>
+                  <option value="medical-waste">Medical and Biomedical Waste</option>
+                  <option value="industrial-waste">Industrial Waste</option>
+                  <option value="agricultural-waste">Agricultural Waste</option>
+                  <option value="chemical-waste">Chemical Waste</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="form-group-modern">
+              <label htmlFor="weight">
+                <i className="bx bx-grid-alt"></i> Weight (Kg)
+              </label>
+              <input
+                type="text"
+                id="weight"
+                name="weight"
+                placeholder="Enter weight in kg"
+                value={formData.weight}
+                onChange={handleChange}
+                required
+              />
+              {errors.weight && <p className="form-error-lbl">{errors.weight}</p>}
+            </div>
           </div>
 
-          {/* Type and Weight in one line */}
-          <div className="garbageform-group">
-            <label htmlFor="type">Type:</label>
-            <select
-              id="type"
-              name="type"
-              value={formData.type}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Waste Type</option>
-              <option value="heavy-garden-waste">Heavy Garden Waste</option>
-              <option value="organic-waste">Organic Waste</option>
-              <option value="electronic-waste">Electronic Waste</option>
-              <option value="medical-waste">Medical and Biomedical Waste</option>
-              <option value="industrial-waste">Industrial Waste</option>
-              <option value="agricultural-waste">Agricultural Waste</option>
-              <option value="chemical-waste">Chemical Waste</option>
-            </select>
-          </div>
-
-          <div className="garbageform-group">
-            <label htmlFor="weight">Weight (Kg):</label>
-            <input
-              type="text" // Use type="text" to control input validation
-              id="weight"
-              name="weight"
-              value={formData.weight}
-              onChange={handleChange}
-              required
-            />
-            {errors.weight && <span className="garbageerror-message">{errors.weight}</span>}
-          </div>
-          
-          <div className="garbageform-group full-width">
-            <label htmlFor="notes">Additional Notes:</label>
+          <div className="form-group-modern">
+            <label htmlFor="notes">
+              <i className="bx bx-note"></i> Additional Notes
+            </label>
             <textarea
               id="notes"
               name="additionalNotes"
+              placeholder="Specify any special handling instructions..."
               value={formData.additionalNotes}
               onChange={handleChange}
+              rows={4}
               required
             ></textarea>
           </div>
 
-          <button type="submit" className="garbagenext-button full-width"  disabled={isSubmitting}>
-            {isSubmitting ? "Submitting..." : "Next"}
-          </button>
+          <div className="schedule-actions-footer">
+            <button type="button" className="wizard-back-btn" onClick={() => navigate('/confirm')}>
+              <i className="bx bx-left-arrow-alt"></i>
+              <span>Back</span>
+            </button>
+            <button type="submit" className="schedule-confirm-btn" disabled={isSubmitting}>
+              <span>{isSubmitting ? "Submitting..." : "Continue"}</span>
+              <i className="bx bx-right-arrow-alt"></i>
+            </button>
+          </div>
         </form>
       </div>
     </div>
-    <Footer/>
-    </>
   );
 };
 
 export default GarbageDetails;
-
-
