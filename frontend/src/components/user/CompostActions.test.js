@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import CompostActions from './CompostActions'; // Adjust the import path if necessary
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 
 describe('CompostActions Component', () => {
     // Helper function to render the component with Router
@@ -14,9 +14,9 @@ describe('CompostActions Component', () => {
         );
     };
 
-    test('renders the Compost Actions title', () => {
+    test('renders the Compost Store title', () => {
         renderComponent();
-        const titleElement = screen.getByText(/Compost Actions/i);
+        const titleElement = screen.getByText(/Compost Store/i);
         expect(titleElement).toBeInTheDocument();
     });
 

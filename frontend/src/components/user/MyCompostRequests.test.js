@@ -1,9 +1,13 @@
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import axios from 'axios';
-import MyCompostRequests from './MyCompostRequests'; // Adjust the import path if necessary
-import '@testing-library/jest-dom/extend-expect';
+const { TextEncoder, TextDecoder } = require('util');
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
+
+const React = require('react');
+const { render, screen, fireEvent, waitFor } = require('@testing-library/react');
+const { BrowserRouter: Router } = require('react-router-dom');
+const axios = require('axios');
+require('@testing-library/jest-dom');
+const MyCompostRequests = require('./MyCompostRequests').default;
 
 jest.mock('axios');
 
@@ -36,7 +40,7 @@ describe('MyCompostRequests Component', () => {
         jest.clearAllMocks();
     });
 
-    test('renders My Compost Requests title', () => {
+    test('renders My Compost Requests title', async () => {
         render(
             <Router>
                 <MyCompostRequests />
@@ -45,6 +49,9 @@ describe('MyCompostRequests Component', () => {
 
         const titleElement = screen.getByText(/My Compost Requests/i);
         expect(titleElement).toBeInTheDocument();
+        
+        // Wait for async fetch to resolve and render rows to prevent act() leaks
+        await screen.findByText(/123 Compost St/i);
     });
 
     test('fetches and displays compost requests', async () => {
@@ -54,7 +61,7 @@ describe('MyCompostRequests Component', () => {
             </Router>
         );
 
-        const potentialWeightElement = await screen.findByText(/100/i);
+        const potentialWeightElement = await screen.findByText(/200/i);
         expect(potentialWeightElement).toBeInTheDocument();
         
         const addressElement = await screen.findByText(/123 Compost St/i);
@@ -71,8 +78,8 @@ describe('MyCompostRequests Component', () => {
         );
 
         // Click the delete button for the first request
-        const deleteButton = await screen.findByText(/Delete/i);
-        fireEvent.click(deleteButton);
+        const deleteButtons = await screen.findAllByText(/Delete/i);
+        fireEvent.click(deleteButtons[0]);
 
         // Ensure the request is removed from the document
         await waitFor(() => {
@@ -88,14 +95,14 @@ describe('MyCompostRequests Component', () => {
         );
 
         // Click the edit button for the first request
-        const editButton = await screen.findByText(/Edit/i);
-        fireEvent.click(editButton);
+        const editButtons = await screen.findAllByText(/Edit/i);
+        fireEvent.click(editButtons[0]);
 
         // Change the amount and address
         const amountInput = screen.getByRole('spinbutton'); // Number input for amount
         fireEvent.change(amountInput, { target: { value: '60' } });
 
-        const addressInput = screen.getByRole('textbox'); // Text input for address
+        const addressInput = screen.getByDisplayValue('123 Compost St'); // Text input for address
         fireEvent.change(addressInput, { target: { value: '789 Compost Blvd' } });
 
         // Mock the update request

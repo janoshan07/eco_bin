@@ -51,8 +51,6 @@ const AddCompostRequest = () => {
                 if (userEmail) {
                     const wasteResponse = await axios.get(`http://localhost:8070/wastedetail/user-waste/${userEmail}`);
                     const wasteData = wasteResponse.data;
-                    console.log(wasteData);
-    
                     // Filter out organic waste based on the category mapping
                     const totalOrganicWaste = wasteData
                         .filter((waste) => {

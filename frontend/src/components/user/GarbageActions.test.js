@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import GarbageActions from './GarbageActions'; // Adjust the import path if necessary
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 
 describe('GarbageActions Component', () => {
     // Helper function to render the component with Router
@@ -16,7 +16,7 @@ describe('GarbageActions Component', () => {
 
     test('renders the Garbage Handover Actions title', () => {
         renderComponent();
-        const titleElement = screen.getByText(/Garbage Handover Actions/i);
+        const titleElement = screen.getByText(/Waste Collection Workspace/i);
         expect(titleElement).toBeInTheDocument();
     });
 

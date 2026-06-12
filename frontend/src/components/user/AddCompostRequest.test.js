@@ -2,12 +2,13 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import AddCompostRequest from './AddCompostRequest';
+import '@testing-library/jest-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 jest.mock('axios');
 
 const mockCategories = [
-  { _id: '1', name: 'organic' },
+  { _id: '1', name: 'Organic' },
   { _id: '2', name: 'plastic' }
 ];
 
@@ -28,6 +29,7 @@ const mockCompostRequest = {
 describe('AddCompostRequest Component', () => {
   beforeEach(() => {
     localStorage.setItem('userEmail', 'test@test.com');
+    jest.spyOn(window, 'alert').mockImplementation(() => {});
 
     axios.get.mockImplementation((url) => {
       if (url.includes('category/view-categories')) {
@@ -43,6 +45,7 @@ describe('AddCompostRequest Component', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    jest.restoreAllMocks();
   });
 
   it('should render the compost request form correctly', async () => {
@@ -129,7 +132,7 @@ describe('AddCompostRequest Component', () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/cannot exceed potential compost output/i)).toBeInTheDocument();
+      expect(window.alert).toHaveBeenCalledWith(expect.stringContaining('cannot exceed potential compost output'));
     });
   });
 
@@ -161,7 +164,7 @@ describe('AddCompostRequest Component', () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/Compost Request Added/i)).toBeInTheDocument();
+      expect(window.alert).toHaveBeenCalledWith('Compost Request Added');
     });
   });
 });

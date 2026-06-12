@@ -1,81 +1,132 @@
-/* Compost Actions Dashboard Style */
+/* Compost Store Workspace Styles */
 
-.compost-hub-wrapper {
+.recycle-hub-container {
     width: 100%;
 }
 
-.compost-hub-header {
-    margin-bottom: 2rem;
-}
-
-.compost-hub-header h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-    letter-spacing: -0.5px;
-}
-
-.compost-hub-header p {
-    font-size: 0.95rem;
+.hub-back-btn {
+    background: none;
+    border: none;
     color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    transition: var(--transition-smooth);
+    width: fit-content;
 }
 
-.compost-cards-grid {
+.hub-back-btn i {
+    font-size: 1.25rem;
+    transition: var(--transition-smooth);
+}
+
+.hub-back-btn:hover {
+    color: var(--eco-green);
+}
+
+.hub-back-btn:hover i {
+    transform: translateX(-4px);
+}
+
+/* Hub Action Card Grid */
+.hub-cards-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
+    margin-bottom: 2.5rem;
     width: 100%;
-    max-width: 900px;
 }
 
-.compost-card-box {
+.hub-card {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: 16px;
-    padding: 2rem;
-    box-shadow: var(--shadow-sm);
+    overflow: hidden;
     cursor: pointer;
+    box-shadow: var(--shadow-sm);
     transition: var(--transition-smooth);
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
 }
 
-.compost-card-box:hover {
+.hub-card:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-md);
     border-color: #cbd5e1;
 }
 
-.compost-icon-circle {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
+.hub-card-img-wrapper {
+    width: 100%;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    background-color: #f8fafc; /* Fallback */
+}
+
+.hub-card-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.hub-card:hover .hub-card-img-wrapper img {
+    transform: scale(1.05);
+}
+
+.hub-card-icon {
+    position: absolute;
+    bottom: 12px;
+    right: 16px;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
-    margin-bottom: 1.25rem;
+    color: var(--text-white);
+    font-size: 1.35rem;
+    box-shadow: var(--shadow-md);
 }
 
-.compost-card-box h3 {
+.bg-green {
+    background-color: var(--eco-green);
+}
+
+.bg-blue {
+    background-color: var(--accent-blue);
+}
+
+.hub-card-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-grow: 1;
+}
+
+.hub-card-content h3 {
     font-size: 1.15rem;
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 0.5rem;
+    margin: 0 0 0.25rem 0;
 }
 
-.compost-card-box p {
+.hub-card-content p {
     font-size: 0.85rem;
     color: var(--text-secondary);
     line-height: 1.5;
-    margin-bottom: 1.5rem;
     flex-grow: 1;
-    text-align: left;
+    margin: 0 0 1rem 0;
 }
 
-.compost-btn {
+.hub-card-btn {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
@@ -86,19 +137,29 @@
     cursor: pointer;
     padding: 0;
     transition: var(--transition-smooth);
+    width: fit-content;
 }
 
-.compost-btn i {
+.font-green {
+    color: var(--eco-green);
+}
+
+.font-blue {
+    color: var(--accent-blue);
+}
+
+.hub-card-btn i {
     font-size: 1.1rem;
     transition: transform 0.2s ease;
 }
 
-.compost-card-box:hover .compost-btn i {
+.hub-card:hover .hub-card-btn i {
     transform: translateX(4px);
 }
 
-@media (max-width: 650px) {
-    .compost-cards-grid {
+/* Responsive Rules */
+@media (max-width: 768px) {
+    .hub-cards-grid {
         grid-template-columns: 1fr;
     }
 }
